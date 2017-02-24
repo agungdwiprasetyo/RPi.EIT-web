@@ -1,0 +1,25 @@
+{
+  "name": "RaspEIT",
+  "version": "0.0.0",
+  "description": "Front-End to visualize the image on Electrical Impedance Tomography",
+  "main": "index.js",
+  "private": true,
+  "license": "BSD",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/agungdwiprasetyo/RaspEIT"
+  },
+  "dependencies": {
+    "express": "4.13.4",
+    "debug": "2.2.0",
+    "engine.io": "1.7.2",
+    "has-binary": "0.1.7",
+    "object-assign": "4.1.0",
+    "socket.io-adapter": "0.4.0",
+    "socket.io-client": "1.5.1",
+    "socket.io-parser": "2.3.1"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
