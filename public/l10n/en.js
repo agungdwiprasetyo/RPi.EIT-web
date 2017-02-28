@@ -17,6 +17,9 @@
     "HEADER" : "Navigation",
     "DASHBOARD" : "Dashboard",
     "CALENDAR" : "Calendar",
+    "DAYA" : "Penggunaan Daya",
+    "SURYA" : "Panel Surya",
+    "LINGKUNGAN" : "Lingkungan",
     "EMAIL" : "Email",
     "WIDGETS" : "Widgets",
     "components" : {

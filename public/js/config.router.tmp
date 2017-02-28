@@ -24,7 +24,7 @@ angular.module('app')
                   url: '',
                   templateUrl: 'tpl/app.html'
               })
-              .state('app.dashboard', {
+              .state('app.dashboard-v1', {
                   url: '/home',
                   templateUrl: 'tpl/app_dashboard_v1.html',
                   resolve: {
@@ -34,9 +34,15 @@ angular.module('app')
                     }]
                   }
               })
-              .state('app.lingkungan', {
-                  url: '/lingkungan',
-                  templateUrl: 'tpl/page_profile.html'
+              .state('app.dashboard-v2', {
+                  url: '/dashboard-v2',
+                  templateUrl: 'tpl/app_dashboard_v2.html',
+                  resolve: {
+                    deps: ['$ocLazyLoad',
+                      function( $ocLazyLoad ){
+                        return $ocLazyLoad.load(['js/controllers/chart.js']);
+                    }]
+                  }
               })
               .state('app.ui', {
                   url: '/ui',
@@ -481,6 +487,49 @@ angular.module('app')
                       }]
                   }
               })
+              .state('music', {
+                  url: '/music',
+                  templateUrl: 'tpl/music.html',
+                  controller: 'MusicCtrl',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load([
+                            'com.2fdevs.videogular', 
+                            'com.2fdevs.videogular.plugins.controls', 
+                            'com.2fdevs.videogular.plugins.overlayplay',
+                            'com.2fdevs.videogular.plugins.poster',
+                            'com.2fdevs.videogular.plugins.buffering',
+                            'js/app/music/ctrl.js', 
+                            'js/app/music/theme.css'
+                          ]);
+                      }]
+                  }
+              })
+                .state('music.home', {
+                    url: '/home',
+                    templateUrl: 'tpl/music.home.html'
+                })
+                .state('music.genres', {
+                    url: '/genres',
+                    templateUrl: 'tpl/music.genres.html'
+                })
+                .state('music.detail', {
+                    url: '/detail',
+                    templateUrl: 'tpl/music.detail.html'
+                })
+                .state('music.mtv', {
+                    url: '/mtv',
+                    templateUrl: 'tpl/music.mtv.html'
+                })
+                .state('music.mtvdetail', {
+                    url: '/mtvdetail',
+                    templateUrl: 'tpl/music.mtv.detail.html'
+                })
+                .state('music.playlist', {
+                    url: '/playlist/{fold}',
+                    templateUrl: 'tpl/music.playlist.html'
+                })
       }
     ]
   );

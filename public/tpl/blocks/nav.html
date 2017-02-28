@@ -3,51 +3,28 @@
   <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
     <span translate="aside.nav.HEADER">Navigation</span>
   </li>
-<!--   <li>
-    <a href class="auto">      
-      <span class="pull-right text-muted">
-        <i class="fa fa-fw fa-angle-right text"></i>
-        <i class="fa fa-fw fa-angle-down text-active"></i>
-      </span>
-      <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
-      <span class="font-bold" translate="aside.nav.DASHBOARD">Dashboard</span>
-    </a>
-    <ul class="nav nav-sub dk">
-      <li class="nav-sub-header">
-        <a href>
-          <span translate="aside.nav.DASHBOARD">Dashboard</span>
-        </a>
-      </li>
-      <li ui-sref-active="active">
-        <a ui-sref="app.dashboard-v1">
-          <span>Dashboard v1</span>
-        </a>
-      </li>
-      <li ui-sref-active="active">
-        <a ui-sref="app.dashboard-v2">
-          <b class="label bg-info pull-right">N</b>
-          <span>Dashboard v2</span>
-        </a>
-      </li>
-    </ul>
-  </li> -->
   <li ui-sref-active="active">
-    <a ui-sref="app.dashboard-v1">
+    <a ui-sref="app.dashboard">
       <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
       <span class="font-bold" translate="aside.nav.DASHBOARD">Dashboard</span>
     </a>
   </li>
   <li ui-sref-active="active">
     <a ui-sref="app.calendar">
-      <i class="glyphicon glyphicon-calendar icon text-info-dker"></i>
-      <span class="font-bold" translate="aside.nav.CALENDAR">Calendar</span>
+      <i class="icon text-info-dker icon-graph"></i>
+      <span class="font-bold" translate="aside.nav.DAYA"></span>
     </a>
   </li>
   <li ui-sref-active="active">
     <a ui-sref="app.mail.list">
-      <b class="badge bg-info pull-right">9</b>
-      <i class="glyphicon glyphicon-envelope icon text-info-lter"></i>
-      <span class="font-bold" translate="aside.nav.EMAIL">Email</span>
+      <i class="glyphicon glyphicon-th"></i>
+      <span class="font-bold" translate="aside.nav.SURYA"></span>
+    </a>
+  </li>
+    <li ui-sref-active="active">
+    <a ui-sref="app.lingkungan">
+      <i class="icon icon-eye"></i>
+      <span class="font-bold" translate="aside.nav.LINGKUNGAN"></span>
     </a>
   </li>
   <li>
@@ -375,14 +352,14 @@
   <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">          
     <span translate="aside.nav.alat.NAMA">Your Stuff</span>
   </li>  
-  <li>
+  <li ui-sref-active="active">
     <a ui-sref="app.chart">
       <i class="icon-user icon text-success-lter"></i>
       <b class="badge bg-success pull-right">Good</b>
       <span translate="aside.nav.alat.STATUS">Profile</span>
     </a>
   </li>
-  <li>
+  <li ui-sref-active="active">
     <a ui-sref="app.shutdown">
       <i class="fa-power-off fa"></i>
       <span translate="aside.nav.alat.CONDITION">Shut Down</span>

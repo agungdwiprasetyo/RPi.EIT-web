@@ -15,7 +15,6 @@
 <body ng-controller="AppCtrl">
   <div class="app" id="app" ng-class="{'app-header-fixed':app.settings.headerFixed, 'app-aside-fixed':app.settings.asideFixed, 'app-aside-folded':app.settings.asideFolded, 'app-aside-dock':app.settings.asideDock, 'container':app.settings.container}" ui-view></div>
 
-
   <!-- jQuery -->
   <script src="vendor/jquery/jquery.min.js"></script>
 
@@ -65,18 +64,8 @@
   <script src="js/directives/ui-toggleclass.js"></script>
   <script src="js/directives/ui-validate.js"></script>
   <script src="js/controllers/bootstrap.js"></script>
-  
-  <!-- Service -->
-  <script src="js/sispak/services/config.js"></script>
-  <script src="js/sispak/services/sql.js"></script>
-  <script src="js/sispak/services/localStorage.js"></script>
-  <script src="js/sispak/services/math.js"></script>
-  <script src="js/sispak/services/kromosom.js"></script>
-  <script src="js/sispak/services/ga.js"></script>
-  <script src="js/sispak/services/ann.js"></script>
-  <script src="js/sispak/services/input.js"></script>
 
-  
+  <script src="js/raspEIT/controllers/appController.js"></script>  
   
 </body>
 </html>
