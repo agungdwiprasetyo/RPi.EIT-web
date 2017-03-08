@@ -1,0 +1,16 @@
+  <div class="panel-heading">
+    Galeri Citra Hasil Rekonstruksi
+  </div>
+  <carousel interval="myInterval">
+    <slide ng-repeat="slide in slides" active="slide.active">
+      <img ng-src="{{slide.image}}" class="img-full">
+      <div class="carousel-caption">
+        <h4>Slide {{$index}}</h4>
+        <p>{{slide.text}}</p>
+      </div>
+    </slide>
+  </carousel>
+  <div class="panel-footer">
+    <button type="button" class="btn btn-default m-r" ng-click="addSlide()">Add Slide</button>
+    Interval: <input type="number" class="form-control w-sm inline" ng-model="myInterval"> ms          
+  </div>

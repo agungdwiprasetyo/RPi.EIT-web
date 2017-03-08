@@ -1,0 +1,34 @@
+<!-- progressbar -->
+<div class="panel-heading">
+  <ul class="nav nav-pills pull-right">
+    <li><a href ng-click="random()">Random</a></li>
+    <li><a href ng-click="randomStacked()">Stack</a></li>
+  </ul>
+  Jalankan Perintah Rekonstruksi Citra dari Data
+  </div>
+<div class="m-b-lg">
+  <div class="btn-group btn-group-justified">
+    <a href class="btn btn-info" ng-click="reconstruction()">RUN</a>
+  </div>
+</div>
+<div class="list-group">
+  <div class="list-group-item">
+    <progressbar value="35" class="progress-xxs m-t-sm"></progressbar>
+    <progressbar value="55" class="progress-xs" type="info"></progressbar>
+    <progressbar class="progress-striped progress-xs" value="22" type="success">22%</progressbar>
+    <progressbar class="progress-striped active progress-xs m-b-sm" max="200" value="90" type="warning"><i>90 / 200</i></progressbar>
+  </div>
+  <div class="list-group-item">
+    <progressbar max="max" value="dynamic" type="info" class="progress-sm m-t-sm"><span style="white-space:nowrap;">{{dynamic}} / {{max}}</span></progressbar>            
+    <progressbar animate="false" value="dynamic" type="success"><b>{{dynamic}}%</b></progressbar>
+    <progressbar class="progress-striped active m-b-sm" value="dynamic" type="{{type}}">{{type}} <i ng-show="showWarning">!!! Watch out !!!</i></progressbar>
+  </div>
+  <div class="list-group-item">
+    <progress class="m-t-sm m-b-sm">
+      <bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}">
+        <span ng-hide="bar.value < 5">{{bar.value}}%</span>
+      </bar>
+    </progress>
+  </div>
+</div>
+<!-- / progressbar -->
