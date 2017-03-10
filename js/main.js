@@ -12,7 +12,7 @@ angular.module('app')
 
       // config
       $scope.app = {
-        name: 'RaspEIT',
+        name: 'RPi.EIT',
         version: '1.0',
         // for chart colors
         color: {

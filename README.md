@@ -1,3 +1,3 @@
-# RaspEIT
+# RPi.EIT
 
-Node.js and AngularJS to visualize the image on Electrical Impedance Tomography
+Web apps Rpi.EIT using AngularJS to visualize the image on Electrical Impedance Tomography
