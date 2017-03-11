@@ -6,9 +6,6 @@ angular.module('app')
   .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', '$rootScope', '$state',
     function(              $scope,   $translate,   $localStorage,   $window, $rootScope, $state ) {
       // add 'ie' classes to html
-      var isIE = !!navigator.userAgent.match(/MSIE/i);
-      isIE && angular.element($window.document.body).addClass('ie');
-      isSmartDevice( $window ) && angular.element($window.document.body).addClass('smart');
 
       // config
       $scope.app = {

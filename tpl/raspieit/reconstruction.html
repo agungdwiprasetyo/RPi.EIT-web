@@ -1,13 +1,20 @@
 <!-- progressbar -->
-<div class="panel-heading" ng-click="coba()">
+<!-- <div class="panel-heading" ng-click="klik()">
   Jalankan Perintah Rekonstruksi Citra dari Data
   </div>
 <div class="m-b-lg">
-  <div class="btn-group btn-group-justified">
-    <a href class="btn btn-info" ng-click="reconstruction()">RUN</a>
-  </div>
+        <button class="btn btn-primary btn-addon btn-lg"  ng-click="reconstruction()"><i class="glyphicon glyphicon-fire"></i>Run</button>
 </div>
 <div class="list-group">
-    <progressbar class="progress-striped active m-b-sm" max=100 animate="true" ng-if="hide==0" value="dynamic" type="success">Processing...</progressbar>
+    <progressbar ng-show="state" class="progress-striped active m-b-sm" max=100 animate="true" value="dynamic" type="success">Processing...</progressbar>
 </div>
+<div ng-if="raspionline">raspi online</div> -->
 <!-- / progressbar -->
+<div class="container w-xxl w-auto-xs">
+  <div class="text-center m-b-lg">
+    <h1>RUN</h1>
+  </div>
+  <div class="list-group auto m-b-sm m-b-lg" style="align:center">
+    <button class="btn btn-primary btn-addon btn-lg"  ng-click="reconstruction()"><i class="glyphicon glyphicon-fire"></i>Run</button>
+  </div>
+</div>

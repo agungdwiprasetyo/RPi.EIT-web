@@ -19,6 +19,7 @@ angular.module('app', [
 	'naif.base64'
 ]).factory('socket', ['$rootScope', function($rootScope) {
   var socket = io.connect();
+  socket.emit('webConnect');
 
   return {
     on: function(eventName, callback){

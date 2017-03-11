@@ -1,29 +1,22 @@
-app.controller('ShutDownCtrl', function($scope, $http, socket) {
-  //
-});
+app.controller('ReconstructionCtrl', function($scope, socket, $interval) {
+    $scope.dynamic = 100;
+    $interval(function(){},10); // handle asynchronously
 
-app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', function($scope, socket, $interval) {
-	$scope.reconstruction = function(){
-        $scope.dynamic = 100;
-        $scope.hide = 0;
-		console.log("masukk");
-		socket.emit('runReconstruction', [parseInt(1)]);
-	}
-
-    function hiden(){ // asynchronous
-        $scope.dynamic = 0;
-        $scope.hide = 1;
-        console.log('stop0ppppppppppppppppppppppppppppppp');
-
-    }
-
-    $scope.type = "success";
-    socket.on('statusBar', function(data) {
-        console.log('stop');
-        hiden();
-        console.log($scope.dynamic);
+    socket.on('raspiStatus', function(data){
+        $scope.raspionline = data['online'];
+        console.log($scope.raspionline);
     });
-}]);
+
+	$scope.reconstruction = function(){
+        $scope.state = true;
+		socket.emit('runReconstruction', {status: parseInt(1)});
+	};
+
+    socket.on('statusBar', function(data) {
+        $scope.state = false;
+        console.log($scope.state);
+    });
+});
 
 app.controller('GalleryCtrl', ['$scope', function($scope) {
     $scope.myInterval = 5000;
@@ -38,3 +31,28 @@ app.controller('GalleryCtrl', ['$scope', function($scope) {
       $scope.addSlide();
     }
 }]);
+
+app.controller('ShutDownCtrl', function($scope, $http, socket) {
+  //
+});
+
+app.controller('TypeaheadDemoCtrl', ['$scope', '$http', function($scope, $http) {
+  $scope.selected = undefined;
+  $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+  // Any function returning a promise object can be used to load values asynchronously
+  $scope.getLocation = function(val) {
+    return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        address: val,
+        sensor: false
+      }
+    }).then(function(res){
+      var addresses = [];
+      angular.forEach(res.data.results, function(item){
+        addresses.push(item.formatted_address);
+      });
+      return addresses;
+    });
+  };
+}])
+;

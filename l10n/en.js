@@ -14,22 +14,20 @@
 },
 "aside" : {
   "nav" : {
-    "HEADER" : "Navigation",
+    "SUB" : "Navigation",
     "DASHBOARD" : "Dashboard",
     "CALENDAR" : "Calendar",
     "DAYA" : "Penggunaan Daya",
     "SURYA" : "Panel Surya",
-    "LINGKUNGAN" : "Lingkungan",
-    "EMAIL" : "Email",
-    "WIDGETS" : "Widgets",
+    "DATA" : "Data",
     "components" : {
-      "COMPONENTS" : "Image",
+      "SUB" : "Image",
       "RECONSTRUCTION": "Reconstruction",
       "GALLERY": "Gallery",
       "CHART" : "Chart"
     },
     "alat" : {
-      "NAMA": "EIT Instrument",
+      "SUB": "EIT Instrument",
       "STATUS" : "Status",
       "CONDITION" : "Shut Down"
     }

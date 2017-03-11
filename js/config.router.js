@@ -8,13 +8,13 @@ angular.module('app')
     ['$rootScope', '$state', '$stateParams',
       function ($rootScope,   $state,   $stateParams) {
           $rootScope.$state = $state;
-          $rootScope.$stateParams = $stateParams;        
+          $rootScope.$stateParams = $stateParams;
       }
     ]
   )
   .config(
     ['$stateProvider', '$urlRouterProvider',
-      function ($stateProvider,   $urlRouterProvider) {
+      function ($stateProvider, $urlRouterProvider) {
           $urlRouterProvider
               .otherwise('/home');
 
@@ -35,8 +35,8 @@ angular.module('app')
                     }]
                   }
               })
-              .state('app.lingkungan', {
-                  url: '/lingkungan',
+              .state('app.data', {
+                  url: '/data',
                   templateUrl: 'tpl/page_profile.html'
               })
               // image
