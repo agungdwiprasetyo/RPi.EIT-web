@@ -3,8 +3,14 @@
 /* Controllers */
 
 angular.module('app')
-  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', '$rootScope', '$state',
-    function(              $scope,   $translate,   $localStorage,   $window, $rootScope, $state ) {
+  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', '$rootScope', '$state', 'socket',
+  function($scope, $translate, $localStorage, $window, $rootScope, $state, socket) {
+        socket.emit('webConnect',{'status': true});
+        $rootScope.piOnline = false;
+        socket.on('raspiStatus', function(data){
+            $rootScope.piOnline = data['online'];
+            console.log("rooot "+$rootScope.piOnline);
+        });
       // add 'ie' classes to html
 
       // config

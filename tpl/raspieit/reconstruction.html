@@ -10,11 +10,41 @@
 </div>
 <div ng-if="raspionline">raspi online</div> -->
 <!-- / progressbar -->
-<div class="container w-xxl w-auto-xs">
+
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Jalankan Rekonstruksi Citra</h1>
+</div>
+<!-- <div class="container w-xxl w-auto-xs">
   <div class="text-center m-b-lg">
     <h1>RUN</h1>
   </div>
   <div class="list-group auto m-b-sm m-b-lg" style="align:center">
-    <button class="btn btn-primary btn-addon btn-lg"  ng-click="reconstruction()"><i class="glyphicon glyphicon-fire"></i>Run</button>
+    <input type="text" class="form-control" placeholder="Enter kerapatan (default 0.1)" ng-model="valKerapatan" value="0.1">
+    <button class="btn btn-primary btn-addon btn-lg" ng-class="statBtnRun" ng-click="reconstruction()"><i class="glyphicon glyphicon-fire"></i>Run</button>
   </div>
+  <div><span class="fa fa-spinner" ng-if="state"> Loading...</div>
+</div> -->
+<div class="container w-xxl w-auto-xs">
+  <div class="row">
+      <div class="wrapper text-center">
+      <strong>Masukkan atribut citra yang akan didapatkan</strong>
+    </div>
+      <form name="form" class="form-validation">
+        <div class="text-danger wrapper text-center" ng-show="authError">
+            {{authError}}
+        </div>
+        <div class="list-group list-group-sm">
+          <div class="list-group-item">
+            <input type="text" class="form-control no-border" placeholder="Enter kerapatan (default 0.1)" ng-model="valKerapatan" value="0.1">
+          </div>
+          <div class="list-group-item">
+             <input type="text" placeholder="Injeksi arus (mA)" class="form-control no-border" ng-model="valArus" value="7.5">
+          </div>
+          <div class="list-group-item">
+             <input type="text" placeholder="Data (A-E)" class="form-control no-border" ng-model="valData" value="A">
+          </div>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" ng-click="reconstruction()" ng-disabled='disableBtn'><i class="glyphicon glyphicon-fire"></i> Run</button>
+      </form>
+</div>
 </div>

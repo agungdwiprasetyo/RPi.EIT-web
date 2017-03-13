@@ -17,9 +17,8 @@ angular.module('app', [
     'pascalprecht.translate',
 	'base64',
 	'naif.base64'
-]).factory('socket', ['$rootScope', function($rootScope) {
+]).factory('socket', ['$rootScope', '$interval', function($rootScope, $interval) {
   var socket = io.connect();
-  socket.emit('webConnect');
 
   return {
     on: function(eventName, callback){
