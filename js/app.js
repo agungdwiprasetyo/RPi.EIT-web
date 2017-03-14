@@ -17,7 +17,7 @@ angular.module('app', [
     'pascalprecht.translate',
 	'base64',
 	'naif.base64'
-]).factory('socket', ['$rootScope', '$interval', function($rootScope, $interval) {
+]).factory('socket', ['$rootScope', function($rootScope) {
   var socket = io.connect();
 
   return {

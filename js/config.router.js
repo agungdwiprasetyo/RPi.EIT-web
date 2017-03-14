@@ -4,17 +4,12 @@
  * Config for the router
  */
 angular.module('app')
-  .run(
-    ['$rootScope', '$state', '$stateParams',
-      function ($rootScope,   $state,   $stateParams) {
+  .run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
           $rootScope.$state = $state;
           $rootScope.$stateParams = $stateParams;
       }
-    ]
-  )
-  .config(
-    ['$stateProvider', '$urlRouterProvider',
-      function ($stateProvider, $urlRouterProvider) {
+  ])
+  .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
           $urlRouterProvider
               .otherwise('/home');
 
@@ -29,8 +24,7 @@ angular.module('app')
                   url: '/home',
                   templateUrl: 'tpl/app_dashboard_v1.html',
                   resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
+                    deps: ['$ocLazyLoad', function( $ocLazyLoad ){
                         return $ocLazyLoad.load(['js/controllers/chart.js']);
                     }]
                   }
@@ -43,12 +37,22 @@ angular.module('app')
               .state('app.reconstruction', {
                   url: '/reconstruction',
                   controller: 'ReconstructionCtrl',
-                  templateUrl: 'tpl/raspieit/reconstruction.html'
+                  templateUrl: 'tpl/raspieit/reconstruction.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function( $ocLazyLoad){
+                          return $ocLazyLoad.load('js/raspEIT/controllers/reconstruction.js');
+                      }]
+                  }
               })
               .state('app.galeri', {
                   url: '/galeri',
                   controller: 'GalleryCtrl',
-                  templateUrl: 'tpl/raspieit/gallery.html'
+                  templateUrl: 'tpl/raspieit/gallery.html',
+                  resolve: {
+                      deps: ['uiLoad', function( uiLoad){
+                          return uiLoad.load('js/raspEIT/controllers/gallery.js');
+                      }]
+                  }
               })
               .state('app.grafik', {
                   url: '/grafik',

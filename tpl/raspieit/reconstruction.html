@@ -12,39 +12,52 @@
 <!-- / progressbar -->
 
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Jalankan Rekonstruksi Citra</h1>
+  <h1 class="m-n font-thin h3" ng-click="cobatoast()">Jalankan Rekonstruksi Citra</h1>
 </div>
-<!-- <div class="container w-xxl w-auto-xs">
-  <div class="text-center m-b-lg">
-    <h1>RUN</h1>
-  </div>
-  <div class="list-group auto m-b-sm m-b-lg" style="align:center">
-    <input type="text" class="form-control" placeholder="Enter kerapatan (default 0.1)" ng-model="valKerapatan" value="0.1">
-    <button class="btn btn-primary btn-addon btn-lg" ng-class="statBtnRun" ng-click="reconstruction()"><i class="glyphicon glyphicon-fire"></i>Run</button>
-  </div>
-  <div><span class="fa fa-spinner" ng-if="state"> Loading...</div>
-</div> -->
-<div class="container w-xxl w-auto-xs">
-  <div class="row">
-      <div class="wrapper text-center">
-      <strong>Masukkan atribut citra yang akan didapatkan</strong>
-    </div>
-      <form name="form" class="form-validation">
-        <div class="text-danger wrapper text-center" ng-show="authError">
-            {{authError}}
+
+<div class="row">
+  <div class="col-sm-6 col-md-offset-3">
+    <form class="form-validation">
+      <div class="panel panel-default">
+        <div class="panel-heading">
         </div>
-        <div class="list-group list-group-sm">
-          <div class="list-group-item">
-            <input type="text" class="form-control no-border" placeholder="Enter kerapatan (default 0.1)" ng-model="valKerapatan" value="0.1">
+        <div class="panel-body">
+            <p class="text-muted">Masukkan atribut citra yang akan didapatkan</p>
+          <div class="form-group">
+            <label>Kerapatan <em class="text-muted">(0.01 s.d 0.9)</em></label>
+            <input type="text" class="form-control" ng-model="valKerapatan" value="0.1" required >
           </div>
-          <div class="list-group-item">
-             <input type="text" placeholder="Injeksi arus (mA)" class="form-control no-border" ng-model="valArus" value="7.5">
+          <div class="form-group">
+            <label>Injeksi Arus</label>
+            <input type="text" class="form-control" ng-model="valArus" value="7.5" required >
           </div>
-          <div class="list-group-item">
-             <input type="text" placeholder="Data (A-E)" class="form-control no-border" ng-model="valData" value="A">
+          <div class="form-group pull-in clearfix">
+            <div class="col-sm-6">
+              <label>Pilih Data</label>
+              <select ng-model="valData" class="form-control">
+                   <option value="dataPenelitian">Data Penelitian</option>
+                   <option value="ukurmanualB">Ukur Manual</option>
+                   <option value="phantomA">Phantom A</option>
+                   <option value="phantomB">Phantom B</option>
+                   <option value="phantomC">Phantom C</option>
+                   <option value="phantomD">Phantom D</option>
+             </select>
+            </div>
+            <div class="col-sm-6">
+              <label>Pilih Algoritma Rekonstruksi</label>
+              <select ng-model="valAlgor" class="form-control">
+                   <option value="BP">Back Projection</option>
+                   <option value="JAC">Jacobian/Gauss-Newton</option>
+                   <option value="GREIT">GREIT</option>
+             </select>
+            </div>
           </div>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" ng-click="reconstruction()" ng-disabled='disableBtn'><i class="glyphicon glyphicon-fire"></i> Run</button>
-      </form>
-</div>
-</div>
+        <footer class="panel-footer text-right bg-light lter">
+            <div><span class="fa fa-spinner" ng-if="state"> Loading...</div>
+                <div><span class="fa fa-time">{{waktu}}</div>
+          <button type="submit" class="btn btn-lg btn-success" ng-click="reconstruction()" ng-disabled='disableBtn'><i class="glyphicon glyphicon-fire"></i> Run</button>
+        </footer>
+      </div>
+    </form>
+  </div>
