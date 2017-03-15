@@ -1,0 +1,23 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Realtime EIT</h1>
+
+</div>
+<div class="wrapper-md">
+    <div class="row">
+        <div class="col-lg-6 col-md-offset-3">
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
+        </div>
+        <div class="col-lg-6 col-md-offset-3" style="top: 50px;" ng-show="!loading">
+            <!-- <button class="btn btn-lg btn-success btn-block">RUN</button> -->
+            <div class="text-center"><a href="" ng-click="run()">
+                <i ng-class="iconClass" style="font-size: 200px;"></i>
+                <h2 class="m-n h3">RUN</h2>
+            </a></div>
+        </div>
+
+        <div ng-show="loading">
+            <div class="circle-inner-inner"></div>
+            <div class="circle-inner"></div>
+        </div>
+    </div>
+</div>

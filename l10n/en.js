@@ -23,6 +23,7 @@
     "components" : {
       "SUB" : "Image",
       "RECONSTRUCTION": "Reconstruction",
+      "REALTIME": "Realtime EIT",
       "GALLERY": "Gallery",
       "CHART" : "Chart"
     },

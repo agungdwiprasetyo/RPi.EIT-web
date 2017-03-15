@@ -4,5 +4,5 @@ app.controller('GalleryCtrl', ['$scope', '$http', function($scope, $http) {
         $scope.dataImage = data;
     });
 
-    $scope.myInterval = 5000;
+    $scope.myInterval = 10000;
 }]);

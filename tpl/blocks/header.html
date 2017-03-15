@@ -23,14 +23,14 @@
           <a href class="btn no-shadow navbar-btn" ng-click="app.settings.asideFolded = !app.settings.asideFolded">
             <i class="fa {{app.settings.asideFolded ? 'fa-indent' : 'fa-dedent'}} fa-fw"></i>
           </a>
-          <a href class="btn no-shadow navbar-btn" ui-toggle-class="show" target="#aside-user">
+          <!-- <a href class="btn no-shadow navbar-btn" ui-toggle-class="show" target="#aside-user">
             <i class="icon-user fa-fw"></i>
-          </a>
+          </a> -->
         </div>
         <!-- / buttons -->
 
         <!-- link and dropdown -->
-        <ul class="nav navbar-nav hidden-sm">
+        <!-- <ul class="nav navbar-nav hidden-sm">
           <li class="dropdown" dropdown>
             <a href class="dropdown-toggle" dropdown-toggle>
               <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
@@ -44,7 +44,7 @@
                   <span translate="header.navbar.new.TASK">Task</span>
                 </a>
               </li>
-              <li><a href translate="header.navbar.new.USER">User</a></li>
+              <li><a href translate="header.navbar.new.USER">User haha</a></li>
               <li class="divider"></li>
               <li>
                 <a href>
@@ -54,11 +54,11 @@
               </li>
             </ul>
           </li>
-        </ul>
+        </ul> -->
         <!-- / link and dropdown -->
 
         <!-- search form -->
-        <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
+        <!-- <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
           <div class="form-group">
             <div class="input-group">
               <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Search projects...">
@@ -67,23 +67,21 @@
               </span>
             </div>
           </div>
-        </form>
+        </form> -->
         <!-- / search form -->
 
         <!-- nabar right -->
         <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown hidden-sm" is-open="lang.isopen" dropdown>
+          <!-- <li class="dropdown hidden-sm" is-open="lang.isopen" dropdown>
             <a href class="dropdown-toggle" dropdown-toggle>
               {{selectLang}} <b class="caret"></b>
             </a>
-            <!-- dropdown -->
             <ul class="dropdown-menu animated fadeInRight w">
               <li ng-repeat="(langKey, label) in langs">
                 <a ng-click="setLang(langKey, $event)" href>{{label}}</a>
               </li>
             </ul>
-            <!-- / dropdown -->
-          </li>
+          </li> -->
           <li class="hidden-xs">
             <a ui-fullscreen></a>
           </li>

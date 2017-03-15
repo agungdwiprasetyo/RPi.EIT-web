@@ -1,26 +1,13 @@
-<!-- progressbar -->
-<!-- <div class="panel-heading" ng-click="klik()">
-  Jalankan Perintah Rekonstruksi Citra dari Data
-  </div>
-<div class="m-b-lg">
-        <button class="btn btn-primary btn-addon btn-lg"  ng-click="reconstruction()"><i class="glyphicon glyphicon-fire"></i>Run</button>
-</div>
-<div class="list-group">
-    <progressbar ng-show="state" class="progress-striped active m-b-sm" max=100 animate="true" value="dynamic" type="success">Processing...</progressbar>
-</div>
-<div ng-if="raspionline">raspi online</div> -->
-<!-- / progressbar -->
-
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3" ng-click="cobatoast()">Jalankan Rekonstruksi Citra</h1>
+  <h1 class="m-n font-thin h3">Jalankan Rekonstruksi Citra</h1>
 </div>
 
-<div class="row">
-  <div class="col-sm-6 col-md-offset-3">
+<div class="wrapper-md">
+  <div class="col-sm-6 col-md-offset-3" ng-hide="state">
+  <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
+    <div class="row">
     <form class="form-validation">
       <div class="panel panel-default">
-        <div class="panel-heading">
-        </div>
         <div class="panel-body">
             <p class="text-muted">Masukkan atribut citra yang akan didapatkan</p>
           <div class="form-group">
@@ -34,30 +21,37 @@
           <div class="form-group pull-in clearfix">
             <div class="col-sm-6">
               <label>Pilih Data</label>
-              <select ng-model="valData" class="form-control">
-                   <option value="dataPenelitian">Data Penelitian</option>
-                   <option value="ukurmanualB">Ukur Manual</option>
-                   <option value="phantomA">Phantom A</option>
-                   <option value="phantomB">Phantom B</option>
-                   <option value="phantomC">Phantom C</option>
-                   <option value="phantomD">Phantom D</option>
+              <select ng-model="valData" class="form-control" required>
+                  <option ng-repeat="data in dataUkur" value="{{data.alamat_data}}">{{data.nama_data}}</option>
              </select>
             </div>
             <div class="col-sm-6">
               <label>Pilih Algoritma Rekonstruksi</label>
-              <select ng-model="valAlgor" class="form-control">
-                   <option value="BP">Back Projection</option>
-                   <option value="JAC">Jacobian/Gauss-Newton</option>
-                   <option value="GREIT">GREIT</option>
+              <select ng-model="valAlgor" class="form-control" required>
+                   <option ng-repeat="algor in dataAlgor" value="{{algor.id_algor}}">{{algor.nama_algor}}</option>
              </select>
             </div>
           </div>
         </div>
         <footer class="panel-footer text-right bg-light lter">
-            <div><span class="fa fa-spinner" ng-if="state"> Loading...</div>
                 <div><span class="fa fa-time">{{waktu}}</div>
           <button type="submit" class="btn btn-lg btn-success" ng-click="reconstruction()" ng-disabled='disableBtn'><i class="glyphicon glyphicon-fire"></i> Run</button>
         </footer>
       </div>
     </form>
+    </div>
   </div>
+  </div>
+
+<!-- Loading section -->
+<div ng-show="state">
+    <div class="circle-inner-inner"></div>
+    <div class="circle-inner"></div>
+</div>
+
+<!-- Hasil citra -->
+<div class="panel-body col-md-4 col-md-offset-4">
+    <div class="row">
+
+    </div>
+</div>

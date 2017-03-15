@@ -44,6 +44,16 @@ angular.module('app')
                       }]
                   }
               })
+              .state('app.realtime', {
+                  url: '/realtime',
+                  controller: 'RealtimeCtrl',
+                  templateUrl: 'tpl/raspieit/realtime.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function( $ocLazyLoad){
+                          return $ocLazyLoad.load('js/raspEIT/controllers/realtime.js');
+                      }]
+                  }
+              })
               .state('app.galeri', {
                   url: '/galeri',
                   controller: 'GalleryCtrl',
