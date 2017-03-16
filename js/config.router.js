@@ -40,7 +40,11 @@ angular.module('app')
                   templateUrl: 'tpl/raspieit/reconstruction.html',
                   resolve: {
                       deps: ['$ocLazyLoad', function( $ocLazyLoad){
-                          return $ocLazyLoad.load('js/raspEIT/controllers/reconstruction.js');
+                          return $ocLazyLoad.load('ui.select').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/raspEIT/controllers/reconstruction.js');
+                              }
+                          );
                       }]
                   }
               })

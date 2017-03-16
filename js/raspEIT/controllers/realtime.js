@@ -19,12 +19,20 @@ app.controller('RealtimeCtrl', ['$scope', '$rootScope', 'socket', '$interval', f
         }
     });
 
-    $scope.run = function(load){
+    socket.on('statusBar', function(data) {
+        $scope.loading = false;
+    });
+
+    $scope.run = function(){
         if($rootScope.piOnline){
             $scope.loading = true;
-            $interval(function(){
-                $scope.loading = false;
-            },5000);
+            socket.emit('runReconstruction', {
+                status: true,
+                kerapatan: parseFloat(0.05),
+                arus: parseFloat(7.5),
+                data: "4",
+                algor: 'BP'
+            });
         }
     };
 }]);

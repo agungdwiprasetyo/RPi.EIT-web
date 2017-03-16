@@ -4,14 +4,14 @@
 </div>
 <div class="wrapper-md">
     <div class="row">
-        <div class="col-lg-6 col-md-offset-3">
-            <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
+        <div class="col-lg-6 col-md-offset-2">
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" class="text-center">{{alert.msg}}</alert>
         </div>
-        <div class="col-lg-6 col-md-offset-3" style="top: 50px;" ng-show="!loading">
+        <div class="col-lg-6 col-md-offset-2" style="top: 50px;" ng-hide="loading">
             <!-- <button class="btn btn-lg btn-success btn-block">RUN</button> -->
             <div class="text-center"><a href="" ng-click="run()">
                 <i ng-class="iconClass" style="font-size: 200px;"></i>
-                <h2 class="m-n h3">RUN</h2>
+                <!-- <h2 class="m-n h3">RUN</h2> -->
             </a></div>
         </div>
 
