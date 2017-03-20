@@ -81,13 +81,9 @@ angular.module('app')
                   templateUrl: 'tpl/raspieit/data/details.html',
                   controller: 'DetailDataCtrl',
                   resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad){
-                          return $ocLazyLoad.load('angularFileUpload').then(
-                              function(){
-                                 return $ocLazyLoad.load('js/raspEIT/controllers/dataukur.js');
-                              }
-                          );
+                      deps: ['uiLoad',
+                        function( uiLoad){
+                          return uiLoad.load('js/raspEIT/controllers/dataukur.js');
                       }]
                   }
               })

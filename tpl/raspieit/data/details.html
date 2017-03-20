@@ -1,1 +1,36 @@
-{{idData}}
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Details Data</h1>
+</div>
+<div class="wrapper-md">
+    <div class="row col-md-12">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading font-bold">Detail data {{lbel}}</div>
+                <div class="panel-body">
+                    hahahaha
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+          <div class="panel panel-default">
+            <div class="panel-heading font-bold">Grafik data</div>
+            <div class="panel-body">
+              <div ui-jq="plot" ui-options="
+                [{
+                  data: {{XData}}, label: '{{lbel}}', points: { show: true }, lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } }
+                }],
+                {
+                  colors: ['{{app.color.info}}'],
+                  series: { shadowSize: 2 },
+                  xaxis:{ font: { color: '#ccc' } },
+                  yaxis:{ font: { color: '#ccc' } },
+                  grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                  tooltip: true,
+                  tooltipOpts: { content: '%s of %x.1 is %y.4',  defaultTheme: false, shifts: { x: 0, y: 20 } }
+                }
+              " style="height:240px"></div>
+            </div>
+          </div>
+        </div>
+    </div>
+ </div>

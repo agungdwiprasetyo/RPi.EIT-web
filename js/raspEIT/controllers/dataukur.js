@@ -48,7 +48,6 @@ app.controller('DataCtrl', ['$scope', '$rootScope', '$http', 'FileUploader', fun
     $http.get($rootScope.host+'/data')
         .success(function(data){
             $scope.dataTegangan = data;
-            console.log($scope.dataTegangan);
         })
         .error(function(e) {
             console.log("error");
@@ -83,6 +82,20 @@ app.controller('DataCtrl', ['$scope', '$rootScope', '$http', 'FileUploader', fun
 }]);
 
 
-app.controller('DetailDataCtrl',['$scope', '$stateParams', function($scope, $stateParams){
-    $scope.idData = $stateParams.idData;
+app.controller('DetailDataCtrl',['$scope', '$stateParams', '$http', function($scope, $stateParams, $http){
+    $scope.lbel = $stateParams.idData;
+    var xData = [];
+    $http.get('./data/'+$stateParams.idData+'.txt')
+        .success(function(data){
+            $scope.showData = data;
+            var temp = new Array();
+            temp = data.split("\n");
+            for(var i = 0; i < temp.length; i++) {
+                xData.push([i,parseFloat(temp[i])]);
+            }
+            $scope.XData = xData;
+        })
+        .error(function(e) {
+            console.log("error");
+        });
 }]);

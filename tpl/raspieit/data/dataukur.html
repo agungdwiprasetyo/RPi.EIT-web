@@ -31,7 +31,7 @@
             <td>{{data.filename}}</td>
             <td>{{data.arus_injeksi}}</td>
             <td>{{data.datetime | date:'dd/MM/yyyy'}}</td>
-            <td><a ui-sref="data.id({idData: data.nama_data, filename: data.filename})" class="btn btn-primary btn-rounded">Details</a></td>
+            <td><a ui-sref="data.id({idData: data.filename.slice(0, -4)})" class="btn btn-primary btn-rounded">Details</a></td>
           </tr>
         </tbody>
       </table>
@@ -85,7 +85,6 @@
                           <input type="file" nv-file-select="" uploader="uploader" />
                       </div>
                   </div>
-
               </form>
             </div>
           </div>
