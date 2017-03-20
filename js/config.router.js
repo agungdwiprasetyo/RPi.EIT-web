@@ -29,10 +29,69 @@ angular.module('app')
                     }]
                   }
               })
-              .state('app.data', {
-                  url: '/data',
-                  templateUrl: 'tpl/page_profile.html'
+              // algor
+              .state('app.algor', {
+                  url: '/algoritma',
+                  template: '<div ui-view class="fade-in"></div>'
               })
+              .state('app.algor.fem', {
+                  url: '/Finite-Element-Method',
+                  templateUrl: 'tpl/raspieit/algoritma/fem.html'
+              })
+              .state('app.algor.art', {
+                  url: '/algebraic-reconstruction-technique',
+                  templateUrl: 'tpl/raspieit/algoritma/art.html'
+              })
+              .state('app.algor.bp', {
+                  url: '/BackProjection',
+                  templateUrl: 'tpl/raspieit/algoritma/bp.html'
+              })
+              .state('app.algor.jac', {
+                  url: '/Jacobian',
+                  templateUrl: 'tpl/raspieit/algoritma/jac.html'
+              })
+              .state('app.algor.greit', {
+                  url: '/GREIT',
+                  templateUrl: 'tpl/raspieit/algoritma/greit.html'
+              })
+
+              //data
+              .state('data', {
+                  abstract: true,
+                  url: '/data',
+                  templateUrl: 'tpl/app.html'
+              })
+              .state('data.home', {
+                  url: '',
+                  controller: 'DataCtrl',
+                  templateUrl: 'tpl/raspieit/data/dataukur.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad){
+                          return $ocLazyLoad.load('angularFileUpload').then(
+                              function(){
+                                 return $ocLazyLoad.load('js/raspEIT/controllers/dataukur.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('data.id', {
+                  url: '/:idData',
+                  templateUrl: 'tpl/raspieit/data/details.html',
+                  controller: 'DetailDataCtrl',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad){
+                          return $ocLazyLoad.load('angularFileUpload').then(
+                              function(){
+                                 return $ocLazyLoad.load('js/raspEIT/controllers/dataukur.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+
               // image
               .state('app.reconstruction', {
                   url: '/reconstruction',
@@ -84,6 +143,22 @@ angular.module('app')
                   controller: 'ShutDownCtrl',
                   templateUrl: 'tpl/raspieit/shut-down.html'
               })
+
+            //   .state('data', {
+            //       url: '/data',
+            //       template: '<div ui-view class="fade-in"></div>',
+            //       resolve: {
+            //           deps: ['uiLoad',
+            //             function( uiLoad){
+            //               return uiLoad.load('js/controllers/form.js');
+            //           }]
+            //       }
+            //   })
+            //   .state('app.shutdown', {
+            //       url: '/shutdown',
+            //       controller: 'ShutDownCtrl',
+            //       templateUrl: 'tpl/raspieit/shut-down.html'
+            //   })
               // end-------------
       }
     ]

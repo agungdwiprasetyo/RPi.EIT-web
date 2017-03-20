@@ -3,14 +3,14 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
     // GET data from API
     $scope.dataUkur = [];
     $scope.dataAlgor = [];
-    $http.get('http://localhost:1993/data')
+    $http.get($rootScope.host+'/data')
         .success(function(data){
             $scope.dataUkur = data;
         })
         .error(function(err){
             alert('error');
         });
-    $http.get('http://localhost:1993/algor')
+    $http.get($rootScope.host+'/algor')
         .success(function(data){
             $scope.dataAlgor = data;
         })
@@ -64,6 +64,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
         $scope.judul5 = "Hasil";
     });
 
+    // form kerapatan
     $scope.valKerapatan = 0.1;
     $scope.kerapatanOp = {
         min: 0.01,
@@ -92,16 +93,21 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
     }
 
     $scope.deleteImage = function() {
-        $http({
-            method  : 'DELETE',
-            url     : 'http://localhost:1993/image',
-            data    : $.param({'filename': $scope.imageName}),
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }).success(function(data){
-            console.log('sukses delete');
-        }).error(function(e){
-            alert(':(');
-        });
+        var konfirm = confirm("Apakah anda yakin ingin menghapus citra?");
+        if(konfirm){
+            $http({
+                method  : 'DELETE',
+                url     : $rootScope.host+'/image',
+                data    : $.param({'filename': $scope.imageName}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).success(function(data){
+                console.log('sukses delete');
+            }).error(function(e){
+                alert(':(');
+            });
+        }else{
+            return false;
+        }
         $scope.closeImage();
     }
 }]);

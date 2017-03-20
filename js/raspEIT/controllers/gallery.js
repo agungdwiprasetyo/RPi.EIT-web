@@ -1,8 +1,37 @@
-app.controller('GalleryCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.dataImage = {};
-    $http.get('http://localhost:1993/image').success(function(data){
-        $scope.dataImage = data;
+app.controller('GalleryCtrl', ['$scope', '$rootScope', '$http', '$interval', function($scope, $rootScope, $http, $interval) {
+    $scope.slides = [];
+    $scope.myInterval = 10000;
+    $http.get($rootScope.host+'/image').success(function(data){
+        $scope.slides = data;
     });
 
-    $scope.myInterval = 10000;
+    $scope.$watch(function () {
+        for (var i = 0; i < $scope.slides.length; i++) {
+          if ($scope.slides[i].active) {
+            return $scope.slides[i];
+          }
+        }
+    }, function (currentSlide, previousSlide) {
+        if (currentSlide !== previousSlide) {
+          $scope.detailImage=currentSlide;
+        }
+    });
+
+    $scope.deleteImage = function(val){
+        var konfirm = confirm("Apakah anda yakin ingin menghapus citra "+val+"?");
+        if(konfirm){
+          $http({
+              method  : 'DELETE',
+              url     : $rootScope.host+'/image',
+              data    : $.param({'filename': val}),
+              headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }).success(function(data){
+              console.log('sukses delete');
+          }).error(function(e){
+              alert(':(');
+          });
+        }else{
+            return false;
+        }
+    };
 }]);

@@ -11,6 +11,7 @@ angular.module('app')
             $rootScope.piOnline = data['online'];
             console.log("rooot "+$rootScope.piOnline);
         });
+        $rootScope.host = "http://localhost:1993";
       // add 'ie' classes to html
 
       // config

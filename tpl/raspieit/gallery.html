@@ -5,37 +5,47 @@
 
     <div class="col-lg-6">
         <div class="panel-body col-md-10 col-md-offset-1">
-                <carousel interval="myInterval">
-                  <slide ng-repeat="image in dataImage" active="slide.active">
-                        <h4 style="color: #000000">{{$index+1}}</h4>
-                    <img ng-src="img/results/{{image.nama}}" class="img-full">
+            <carousel interval="myInterval">
+              <slide ng-repeat="slide in slides" active="slide.active">
+                    <h4 style="color:#000000">{{$index+1}}</h4>
+                    <img ng-src="img/results/{{slide.nama}}" class="img-full">
                     <div class="">
-                      <h4 style="color: #000000">Citra {{image.nama_data}}</h4>
-                      <div style="color: #000000">Algoritma {{image.nama_algor}}</div>
-                      <div style="color: #000000">Kerapatan: {{image.kerapatan}}</div>
+                        <div ng-init="namaData=slide.nama_data"></div>
+                      <h4 style="color:#000000">Citra {{slide.nama_data}}</h4>
                     </div>
-                  </slide>
-                </carousel>
-                <div class="panel-footer">
-                  Interval: <input type="number" class="form-control w-sm inline" ng-model="myInterval"> ms
-                </div>
+              </slide>
+            </carousel>
+            <div class="panel-footer">
+              Interval: <input type="number" class="form-control w-sm inline" ng-model="myInterval"> ms
+            </div>
         </div>
     </div>
 <div class="wrapper-md">
     <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         <div class="panel panel-primary">
-            <div class="panel-heading">Detail</div>
+            <div class="panel-heading">Detail Citra</div>
             <div class="list-group">
               <div class="list-group-item">
-                Hahaha
+                <b>Data:</b> {{detailImage.nama_data}}
+                <button class="btn btn-primary btn-sm pull-right" ng-click="lihatdata(detailImage.id_data)">Lihat data<button>
               </div>
               <div class="list-group-item">
-                Wkwkwk
+                <b>Algoritma:</b> {{detailImage.nama_algor}}
               </div>
               <div class="list-group-item">
-                Ckckckc
+                <b>Filename:</b> {{detailImage.nama}}
               </div>
+              <div class="list-group-item">
+                <b>Kerapatan:</b> {{detailImage.kerapatan}}
+              </div>
+              <div class="list-group-item">
+                <b>Tanggal:</b> {{detailImage.datetime | date:'dd-MM-yyyy'}}
+              </div>
+              <div class="list-group-item">
+                  <div class="text-center"</div>
+                    <button class="btn btn-danger" ng-click="deleteImage(detailImage.nama)">Delete Image</button>
+                </div>
             </div>
         </div>
     </div>

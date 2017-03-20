@@ -18,7 +18,7 @@
     "DASHBOARD" : "Dashboard",
     "CALENDAR" : "Calendar",
     "DAYA" : "Penggunaan Daya",
-    "SURYA" : "Panel Surya",
+    "ALGOR" : "Algoritma EIT",
     "DATA" : "Data",
     "components" : {
       "SUB" : "Image",
