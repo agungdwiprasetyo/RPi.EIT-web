@@ -22,7 +22,7 @@ angular.module('app')
               // navigation
               .state('app.dashboard', {
                   url: '/home',
-                  templateUrl: 'tpl/app_dashboard_v1.html',
+                  templateUrl: 'tpl/raspieit/home.html',
                   resolve: {
                     deps: ['$ocLazyLoad', function( $ocLazyLoad ){
                         return $ocLazyLoad.load(['js/controllers/chart.js']);
@@ -34,40 +34,29 @@ angular.module('app')
                   url: '/algoritma',
                   template: '<div ui-view class="fade-in"></div>'
               })
-              .state('app.algor.fem', {
-                  url: '/Finite-Element-Method',
-                  templateUrl: 'tpl/raspieit/algoritma/fem.html'
-              })
-              .state('app.algor.art', {
-                  url: '/algebraic-reconstruction-technique',
-                  templateUrl: 'tpl/raspieit/algoritma/art.html'
-              })
-              .state('app.algor.bp', {
-                  url: '/BackProjection',
-                  templateUrl: 'tpl/raspieit/algoritma/bp.html'
-              })
-              .state('app.algor.jac', {
-                  url: '/Jacobian',
-                  templateUrl: 'tpl/raspieit/algoritma/jac.html'
-              })
-              .state('app.algor.greit', {
-                  url: '/GREIT',
-                  templateUrl: 'tpl/raspieit/algoritma/greit.html'
+              .state('app.algor.sub', {
+                  url: '/:idalgor',
+                  controller: 'AlgorCtrl',
+                  templateUrl: 'tpl/raspieit/algoritma/algor.html',
+                  resolve: {
+                    deps: ['$ocLazyLoad', function( $ocLazyLoad ){
+                        return $ocLazyLoad.load(['js/raspEIT/controllers/algoritma.js']);
+                    }]
+                  }
               })
 
               //data
-              .state('data', {
-                  abstract: true,
+              .state('app.data', {
                   url: '/data',
-                  templateUrl: 'tpl/app.html'
+                  template: '<div ui-view></div>'
               })
-              .state('data.home', {
-                  url: '',
+              .state('app.data.home', {
+                  url: '/all',
                   controller: 'DataCtrl',
                   templateUrl: 'tpl/raspieit/data/dataukur.html',
                   resolve: {
                       deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad){
+                        function($ocLazyLoad){
                           return $ocLazyLoad.load('angularFileUpload').then(
                               function(){
                                  return $ocLazyLoad.load('js/raspEIT/controllers/dataukur.js');
@@ -76,7 +65,7 @@ angular.module('app')
                       }]
                   }
               })
-              .state('data.id', {
+              .state('app.data.id', {
                   url: '/:idData',
                   templateUrl: 'tpl/raspieit/data/details.html',
                   controller: 'DetailDataCtrl',
@@ -123,38 +112,18 @@ angular.module('app')
                       }]
                   }
               })
-              .state('app.grafik', {
-                  url: '/grafik',
-                  templateUrl: 'tpl/chart.html',
-                  resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad){
-                          return uiLoad.load('js/controllers/chart.js');
-                      }]
-                  }
-              })
+
               // EIT instrument
+              .state('app.statuseit', {
+                  url: '/status',
+                  controller: 'StatusCtrl',
+                  templateUrl: 'tpl/raspieit/status.html'
+              })
               .state('app.shutdown', {
                   url: '/shutdown',
                   controller: 'ShutDownCtrl',
                   templateUrl: 'tpl/raspieit/shut-down.html'
               })
-
-            //   .state('data', {
-            //       url: '/data',
-            //       template: '<div ui-view class="fade-in"></div>',
-            //       resolve: {
-            //           deps: ['uiLoad',
-            //             function( uiLoad){
-            //               return uiLoad.load('js/controllers/form.js');
-            //           }]
-            //       }
-            //   })
-            //   .state('app.shutdown', {
-            //       url: '/shutdown',
-            //       controller: 'ShutDownCtrl',
-            //       templateUrl: 'tpl/raspieit/shut-down.html'
-            //   })
               // end-------------
       }
     ]

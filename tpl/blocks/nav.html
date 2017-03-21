@@ -26,34 +26,35 @@
     </a>
     <ul class="nav nav-sub dk">
       <li ui-sref-active="active">
-        <a ui-sref="app.algor.fem">
+        <a ui-sref="app.algor.sub({idalgor:'FEM'})">
           <span>FEM</span>
         </a>
       </li>
       <li ui-sref-active="active">
-        <a ui-sref="app.algor.art">
+        <a ui-sref="app.algor.sub({idalgor:'ART'})">
           <span>ART</span>
         </a>
       </li>
       <li ui-sref-active="active">
-        <a ui-sref="app.algor.bp">
+        <a ui-sref="app.algor.sub({idalgor:'BP'})">
           <span>BP</span>
         </a>
       </li>
       <li ui-sref-active="active">
-        <a ui-sref="app.algor.greit">
+        <a ui-sref="app.algor.sub({idalgor:'GREIT'})">
           <span>GREIT</span>
         </a>
       </li>
       <li ui-sref-active="active">
-        <a ui-sref="app.algor.jac">
+        <a ui-sref="app.algor.sub({idalgor:'JAC'})">
           <span>JAC</span>
         </a>
       </li>
     </ul>
   </li>
-    <li ui-sref-active="active">
-    <a ui-sref="data.home">
+
+    <li ng-class="{active:$state.includes('app.data.home')}" ng-class="{active:$state.includes('app.data.id')}">
+    <a ui-sref="app.data.home">
       <i class="fa fa-database"></i>
       <span class="font-bold" translate="aside.nav.DATA"></span>
     </a>
@@ -82,19 +83,13 @@
       <span class="font-bold" translate="aside.nav.components.GALLERY"></span>
     </a>
   </li>
-  <li ui-sref-active="active">
-    <a ui-sref="app.grafik">
-      <i class="glyphicon glyphicon-signal"></i>
-      <span class="font-bold" translate="aside.nav.components.CHART"></span>
-    </a>
-  </li>
 
   <li class="line dk hidden-folded"></li>
   <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
     <span translate="aside.nav.alat.SUB"></span>
   </li>
   <li ui-sref-active="active">
-    <a ui-sref="app.chart">
+    <a ui-sref="app.statuseit">
       <i class="icon-user icon text-success-lter"></i>
       <b class="badge bg-success pull-right">Good</b>
       <span translate="aside.nav.alat.STATUS"></span>
