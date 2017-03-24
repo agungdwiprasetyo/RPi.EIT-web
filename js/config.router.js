@@ -29,6 +29,7 @@ angular.module('app')
                     }]
                   }
               })
+              
               // algor
               .state('app.algor', {
                   url: '/algoritma',
@@ -57,7 +58,7 @@ angular.module('app')
                   resolve: {
                       deps: ['$ocLazyLoad',
                         function($ocLazyLoad){
-                          return $ocLazyLoad.load('angularFileUpload').then(
+                          return $ocLazyLoad.load('toaster').then(
                               function(){
                                  return $ocLazyLoad.load('js/raspEIT/controllers/dataukur.js');
                               }
@@ -124,7 +125,7 @@ angular.module('app')
                   controller: 'ShutDownCtrl',
                   templateUrl: 'tpl/raspieit/shut-down.html'
               })
-              // end-------------
+              // end routing-------------
       }
     ]
   );

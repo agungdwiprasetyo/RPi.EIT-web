@@ -7,7 +7,7 @@
   </h1>
 </div>
 <div class="wrapper-md">
-
+<toaster-container toaster-options="{'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
   <div class="panel panel-default" ng-show="mainData">
     <div class="panel-heading">
       Data Tegangan
@@ -34,12 +34,15 @@
             <td>{{data.filename}}</td>
             <td>{{data.arus_injeksi}}</td>
             <td>{{data.datetime | date:'dd/MM/yyyy'}}</td>
-            <td><a ui-sref="app.data.id({idData: data.filename.slice(0, -4)})" class="btn btn-primary btn-rounded">Details</a></td>
+            <td>
+                <a ui-sref="app.data.id({idData: data.filename.slice(0, -4)})" class="btn btn-primary">Details</a>
+                <a class="btn btn-danger"><i class="fa fa-trash"></i></a>
+            </td>
           </tr>
         </tbody>
-        <tfoot class="">
+        <tfoot>
           <tr>
-              <td colspan="5" class="text-center"><ul class="pagination"></ul></td>
+              <td colspan="6" class="text-center"><ul class="pagination"></ul></td>
           </tr>
         </tfoot>
       </table>
@@ -47,89 +50,35 @@
   </div>
 
   <div class="col-md-12" ng-show="!mainData">
-    <div class="col-md-4">
-        <div class="panel panel-default">
+    <div class="col-md-6 col-md-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading text-center m-n font-thin h4" ng-click="tos()">Tambah Data Baru</div>
             <div class="panel-body">
-              <form class="bs-example form-horizontal" ng-submit="saveData()">
+              <form class="form-horizontal form-validation" ng-submit="saveData()">
                   <div class="form-group">
                   <label class="col-lg-2 control-label">Nama Data</label>
                       <div class="col-lg-10">
-                          <input type="text" class="form-control" placeholder="Nama Data" ng-model="data.nama">
+                          <input type="text" class="form-control" placeholder="Nama Data" ng-model="valNama" required="required">
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-lg-2 control-label">Arus Injeksi</label>
                       <div class="col-lg-10">
-                          <input type="number" class="form-control" placeholder="Arus Injeksi" ng-model="data.arus">
+                          <input type="text" class="form-control" placeholder="Arus Injeksi" ng-model="valArus" required="required">
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-lg-2 control-label">File</label>
                       <div class="col-lg-10">
-                          <input type="file" nv-file-select="" uploader="uploader" />
+                          <input type="file" name="file" id='file' required="required" />
                       </div>
                   </div>
+                  <footer class="panel-footer text-right bg-light lter">
+                    <button type="submit" class="btn btn-info"><i class="fa fa-upload"></i> Upload</button>
+                  </footer>
               </form>
             </div>
           </div>
-        </div>
-
-        <div class="col-md-8">
-            <table class="table bg-white-only b-a">
-          <thead>
-              <tr>
-                  <th width="50%">Nama File Data</th>
-                  <th ng-show="uploader.isHTML5">Size</th>
-                  <th ng-show="uploader.isHTML5">Progress</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr ng-repeat="item in uploader.queue">
-                  <td><strong>{{ item.file.name }}</strong></td>
-                  <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                  <td ng-show="uploader.isHTML5">
-                      <div class="progress progress-sm m-b-none m-t-xs">
-                          <div class="progress-bar bg-info" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-                      </div>
-                  </td>
-                  <td class="text-center">
-                      <span ng-show="item.isSuccess" class="text-success"><i class="glyphicon glyphicon-ok"></i></span>
-                      <span ng-show="item.isCancel" class="text-warning"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                      <span ng-show="item.isError" class="text-danger"><i class="glyphicon glyphicon-remove"></i></span>
-                  </td>
-                  <td nowrap>
-                      <button type="button" class="btn btn-default btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                          Upload
-                      </button>
-                      <button type="button" class="btn btn-default btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
-                          Cancel
-                      </button>
-                      <button type="button" class="btn btn-default btn-xs" ng-click="item.remove()">
-                          Remove
-                      </button>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
-      <div>
-        <div>
-          <p>Queue progress:</p>
-          <div class="progress bg-light dker" style="">
-              <div class="progress-bar progress-bar-striped bg-info" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
-          </div>
-        </div>
-        <button type="button" class="btn btn-addon btn-success" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
-          <i class="fa fa-arrow-circle-o-up"></i> Upload all
-        </button>
-        <button type="button" class="btn btn-addon btn-warning" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
-          <i class="fa fa-ban"></i> Cancel all
-        </button>
-        <button type="button" class="btn btn-addon btn-danger" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
-            <i class="fa fa-trash-o"></i> Remove all
-        </button>
-      </div>
         </div>
     </div>
 </div>

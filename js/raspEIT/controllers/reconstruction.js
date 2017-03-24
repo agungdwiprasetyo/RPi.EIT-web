@@ -1,43 +1,51 @@
 app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootScope', '$http', '$timeout',
     function($scope, socket, $interval, $rootScope, $http, $timeout) {
-    // GET data from API
-    $scope.dataUkur = [];
-    $scope.dataAlgor = [];
-    $http.get($rootScope.host+'/data')
-        .success(function(data){
-            $scope.dataUkur = data;
-        })
-        .error(function(err){
-            alert('error');
-        });
-    $http.get($rootScope.host+'/algor')
-        .success(function(data){
-            $scope.dataAlgor = data;
-        })
-        .error(function(err){
-            alert('error');
-        });
+    // GET data ukur and algor from API
+    $http({
+        method  : 'GET',
+        url     : '/data'
+    }).success(function(data){
+        $scope.dataUkur = data;
+    }).error(function(e){
+        alert(':(');
+    });
+    $http({
+        method  : 'GET',
+        url     : '/algor'
+    }).success(function(data){
+        $scope.dataAlgor = data;
+    }).error(function(e){
+        alert(':(');
+    });
 
     $interval(function(){},10); // handle asynchronously
-    $scope.disableBtn = !$rootScope.piOnline;
-    if ($rootScope.piOnline) {
-        $scope.alerts = [{type: 'success', msg: 'Perangkat EIT sedang Online'}];
-    }else{
-        $scope.alerts = [{type: 'danger', msg: 'Perangkat EIT sedang Offline, hidupkan alat untuk memulai rekonstruksi citra.'}];
-    }
+    $scope.disableBtn = true;
+    // $scope.disableBtn = !$rootScope.piOnline;
+    // if ($rootScope.piOnline) {
+    //     $scope.alerts = [{type: 'success', msg: 'Perangkat EIT sedang Online'}];
+    // }else{
+    //     $scope.alerts = [{type: 'danger', msg: 'Perangkat EIT sedang Offline, hidupkan alat untuk memulai rekonstruksi citra.'}];
+    // }
+    //
+    // socket.on('raspiStatus', function(data){
+    //     $scope.raspionline = data['online'];
+    //     if(data['online']){
+    //         $scope.disableBtn = false;
+    //         $scope.alerts = [{type: 'success', msg: 'Perangkat EIT sedang Online'}];
+    //     }else{
+    //         $scope.disableBtn = true;
+    //         $scope.loadImage = false;
+    //         $scope.alerts = [{type: 'danger', msg: 'Perangkat EIT sedang Offline, hidupkan alat untuk memulai rekonstruksi citra.'}];
+    //     }
+    //     console.log($scope.raspionline);
+    // });
 
-    socket.on('raspiStatus', function(data){
-        $scope.raspionline = data['online'];
-        if(data['online']){
+    // console.log($scope.valData);
+    $scope.cekData = function(){
+        if($scope.valData.selectedData.id_data && $scope.valAlgor.selectedAlgor.id_algor){
             $scope.disableBtn = false;
-            $scope.alerts = [{type: 'success', msg: 'Perangkat EIT sedang Online'}];
-        }else{
-            $scope.disableBtn = true;
-            $scope.loadImage = false;
-            $scope.alerts = [{type: 'danger', msg: 'Perangkat EIT sedang Offline, hidupkan alat untuk memulai rekonstruksi citra.'}];
         }
-        console.log($scope.raspionline);
-    });
+    };
 
 	$scope.reconstruction = function(){
         $scope.alerts = [{type: 'info', msg: 'Sedang merekonstruksi citra. (Data: '+$scope.valData.selectedData.nama_data+', Algoritma: '+$scope.valAlgor.selectedAlgor.nama_algor+')...'}];
@@ -53,10 +61,8 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
             colorbar: $scope.colorbar
         });
 	};
-    // $scope.showImage = true;
-    // $scope.imageName = "20170314-192840-BP.png";
+
     socket.on('notifFinish', function(data) {
-        $scope.alerts = [{type: 'success', msg: 'Perangkat EIT sedang Online'}];
         $scope.loadImage = false;
         $scope.showImage = true;
         $scope.waktu = data['waktu'];
@@ -81,6 +87,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
       updateModel(data.value);
     });
 
+    // select form data and algor
     $scope.valAlgor = {};
     $scope.valAlgor.selectedAlgor = [];
     $scope.valData = {};
@@ -93,11 +100,12 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
     }
 
     $scope.deleteImage = function() {
+        $scope.alerts = [{type: 'success', msg: 'Perangkat EIT sedang Online'}];
         var konfirm = confirm("Apakah anda yakin ingin menghapus citra?");
         if(konfirm){
             $http({
                 method  : 'DELETE',
-                url     : $rootScope.host+'/image',
+                url     : '/image',
                 data    : $.param({'filename': $scope.imageName}),
                 headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
             }).success(function(data){
