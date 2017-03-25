@@ -50,7 +50,8 @@ app.controller('DataCtrl', ['$scope', '$rootScope', '$http', 'toaster', '$interv
     $scope.tos = function(){
         console.log("toss");
         toaster.pop("success", "Sukses", "Sukses upload data.");
-    }
+        $scope.$emit("callReconstruction", {haha: 'wkwk'});
+    };
 }]);
 
 

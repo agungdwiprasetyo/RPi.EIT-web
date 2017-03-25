@@ -29,7 +29,7 @@ angular.module('app')
                     }]
                   }
               })
-              
+
               // algor
               .state('app.algor', {
                   url: '/algoritma',
@@ -108,8 +108,13 @@ angular.module('app')
                   controller: 'GalleryCtrl',
                   templateUrl: 'tpl/raspieit/gallery.html',
                   resolve: {
-                      deps: ['uiLoad', function( uiLoad){
-                          return uiLoad.load('js/raspEIT/controllers/gallery.js');
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad){
+                          return $ocLazyLoad.load('toaster').then(
+                              function() {
+                                  return $ocLazyLoad.load('js/raspEIT/controllers/gallery.js');
+                              }
+                          );
                       }]
                   }
               })

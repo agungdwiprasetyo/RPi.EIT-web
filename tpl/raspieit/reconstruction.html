@@ -42,7 +42,7 @@
               </div>
             </div>
             <footer class="panel-footer text-right bg-light lter">
-              <button type="submit" class="btn btn-lg btn-success" ng-click="reconstruction()" ng-disabled='disableBtn'><i class="glyphicon glyphicon-fire"></i> Run</button>
+              <button type="submit" class="btn btn-lg btn-success" ng-click="reconstruction(valAlgor.selectedAlgor.id_algor, valData.selectedData.filename)" ng-disabled='disableBtn'><i class="glyphicon glyphicon-fire"></i> Run</button>
             </footer>
           </div>
         </form>
@@ -55,7 +55,6 @@
     <div class="circle-inner-inner"></div>
     <div class="circle-inner"></div>
 </div>
-
 
 <!-- Hasil citra -->
 <div class="col-md-12" ng-show="showImage">

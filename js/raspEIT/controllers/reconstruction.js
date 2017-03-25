@@ -47,17 +47,22 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
         }
     };
 
-	$scope.reconstruction = function(){
+    $scope.$on("callReconstruction", function(){
+        console.log("epen masuk");
+    });
+
+	$scope.reconstruction = function(algor, namadata){
         $scope.alerts = [{type: 'info', msg: 'Sedang merekonstruksi citra. (Data: '+$scope.valData.selectedData.nama_data+', Algoritma: '+$scope.valAlgor.selectedAlgor.nama_algor+')...'}];
         $scope.loadImage = true;
         $scope.judul5 = "Processing....";
 		socket.emit('runReconstruction', {
             status: true,
+            tipe: 'fromdata',
             kerapatan: parseFloat($scope.valKerapatan),
             arus: parseFloat($scope.valData.selectedData.arus_injeksi),
             iddata: $scope.valData.selectedData.id_data,
-            data: $scope.valData.selectedData.filename,
-            algor: $scope.valAlgor.selectedAlgor.id_algor,
+            data: namadata,
+            algor: algor,
             colorbar: $scope.colorbar
         });
 	};

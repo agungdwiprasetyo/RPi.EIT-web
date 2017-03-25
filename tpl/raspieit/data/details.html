@@ -1,6 +1,11 @@
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Details Data</h1>
+  <h1 class="m-n font-thin h3">Details Data
+      <button class="btn btn-danger pull-right">
+          <span class="text"><i class="fa fa-trash"></i> Delete this data</span>
+      </button>
+  </h1>
 </div>
+<toaster-container toaster-options="{'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
 <div class="wrapper-md">
     <div class="row col-lg-12">
         <div class="col-md-4">
@@ -20,7 +25,7 @@
                     <b>Tanggal:</b> {{data.datetime | date:'dd-MM-yyyy'}}
                   </div>
                   <div class="list-group-item">
-                        <button class="btn btn-success btn-block btn-lg"><i class="icon icon-control-play"></i> Start Reconstruction</button>
+                        <a ui-sref="" class="btn btn-success btn-block btn-lg"><i class="icon icon-control-play"></i> Start Reconstruction</a>
                     </div>
                 </div>
             </div>

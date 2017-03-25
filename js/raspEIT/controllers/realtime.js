@@ -19,20 +19,26 @@ app.controller('RealtimeCtrl', ['$scope', '$rootScope', 'socket', '$interval', f
         }
     });
 
-    socket.on('statusBar', function(data) {
-        $scope.loading = false;
-    });
-
     $scope.run = function(){
         if($rootScope.piOnline){
             $scope.loading = true;
-            socket.emit('runReconstruction', {
-                status: true,
-                kerapatan: parseFloat(0.05),
-                arus: parseFloat(7.5),
-                data: "4",
-                algor: 'BP'
+            socket.emit('startGetData', {
+                status: true
             });
         }
     };
+
+    socket.on('viewResultVoltage', function(data) {
+        $scope.viewData = data;
+        socket.emit('runReconstruction', {
+            status: true,
+            tipe: "fromraspi",
+            kerapatan: parseFloat(0.07),
+            arus: parseFloat(7.5),
+            iddata: 2,
+            data: data,
+            algor: "BP",
+            colorbar: true
+        });
+    });
 }]);

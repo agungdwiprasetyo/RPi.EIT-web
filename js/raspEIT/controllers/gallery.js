@@ -1,4 +1,4 @@
-app.controller('GalleryCtrl', ['$scope', '$rootScope', '$http', '$interval', function($scope, $rootScope, $http, $interval) {
+app.controller('GalleryCtrl', ['$scope', '$rootScope', '$http', '$interval', 'toaster', function($scope, $rootScope, $http, $interval, toaster) {
     $scope.slides = [];
     $scope.myInterval = 10000;
     $http.get($rootScope.host+'/image').success(function(data){
@@ -27,6 +27,7 @@ app.controller('GalleryCtrl', ['$scope', '$rootScope', '$http', '$interval', fun
               headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
           }).success(function(data){
               console.log('sukses delete');
+              toaster.pop("success", "Sukses", "Success delete image.");
           }).error(function(e){
               alert(':(');
           });
