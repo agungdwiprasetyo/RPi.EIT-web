@@ -1,6 +1,7 @@
-app.controller('RealtimeCtrl', ['$scope', '$rootScope', 'socket', '$interval', function($scope, $rootScope, socket, $interval) {
+app.controller('RealtimeCtrl', ['$scope', '$rootScope', 'socket', '$interval', '$localStorage', '$http',
+function($scope, $rootScope, socket, $interval, $localStorage, $http) {
     $interval(function(){},10);
-    $scope.loading = false;
+    $scope.loadImage = false;
     if ($rootScope.piOnline) {
         $scope.alerts = [{type: 'success', msg: 'Perangkat EIT sedang Online, klik tombol dibawah ini untuk mulai mendapatkan citra dari objek'}];
         $scope.iconClass = "icon icon-control-play";
@@ -20,11 +21,31 @@ app.controller('RealtimeCtrl', ['$scope', '$rootScope', 'socket', '$interval', f
     });
 
     $scope.run = function(){
+        socket.emit('cobago', {message: "hellogo"});
         if($rootScope.piOnline){
-            $scope.loading = true;
+            $scope.loadImage = true;
             socket.emit('startGetData', {
                 status: true
             });
+        }
+    };
+    $scope.delete = function() {
+        var konfirm = confirm("Apakah anda yakin ingin menghapus citra?");
+        if(konfirm){
+            $http({
+                method  : 'DELETE',
+                url     : '/image',
+                data    : $.param({'filename': $scope.imageName}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).success(function(data){
+                console.log('sukses delete');
+                $scope.loadImage = false;
+                $scope.showImage = false;
+            }).error(function(e){
+                alert(':(');
+            });
+        }else{
+            return false;
         }
     };
 
@@ -33,12 +54,23 @@ app.controller('RealtimeCtrl', ['$scope', '$rootScope', 'socket', '$interval', f
         socket.emit('runReconstruction', {
             status: true,
             tipe: "fromraspi",
-            kerapatan: parseFloat(0.07),
-            arus: parseFloat(7.5),
+            kerapatan: parseFloat($localStorage.eitSettings.kerapatan),
+            arus: parseFloat($localStorage.eitSettings.arus),
             iddata: 2,
             data: data,
-            algor: "BP",
-            colorbar: true
+            algor: $localStorage.eitSettings.algor,
+            colorbar: $localStorage.eitSettings.colorbar
         });
     });
+    socket.on('notifFinish', function(data) {
+        $scope.loadImage = false;
+        $scope.showImage = true;
+        $scope.waktu = data['waktu'];
+        $scope.imageName = data['filename'];
+        $scope.judul5 = "Hasil";
+    });
+
+    $scope.eitSettings = $localStorage.eitSettings;
+    if($scope.eitSettings.colorbar) $scope.colorbar="Yes";
+    else $scope.colorbar="No";
 }]);

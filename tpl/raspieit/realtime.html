@@ -1,24 +1,46 @@
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Realtime EIT</h1>
-
+  <h1 class="m-n font-thin h3" ng-init="mainReal=true">Realtime EIT
+  </h1>
 </div>
 <div class="wrapper-md">
     <div class="row">
-        <div class="col-lg-6 col-md-offset-2">
-            <alert ng-repeat="alert in alerts" type="{{alert.type}}" class="text-center">{{alert.msg}}</alert>
-        </div>
-        <div class="col-lg-6 col-md-offset-2" style="top: 50px;" ng-hide="loading">
-            <!-- <button class="btn btn-lg btn-success btn-block">RUN</button> -->
-            <div class="text-center"><a href="" ng-click="run()">
-                <i ng-class="iconClass" style="font-size: 200px;"></i>
-                <!-- <h2 class="m-n h3">RUN</h2> -->
-            </a></div>
-        </div>
-        {{viewData}}
+        <div class="col-md-12">
+            <div class="col-md-6 col-md-offset-1">
+                <alert ng-repeat="alert in alerts" type="{{alert.type}}" class="text-center">{{alert.msg}}</alert>
+                <div class="panel panel-default" ng-show="showImage">
+                    <div class="panel-body">
+                        <button class="btn btn-danger pull-right" ng-click="delete()"><i class="fa fa-trash"></i> Delete</button>
+                        <img ng-src="img/results/{{imageName}}" class="img-full">
+                    </div>
+                </div>
+                <div class="text-center" ng-hide="loadImage || showImage">
+                    <a href="" ng-click="run()">
+                        <i ng-class="iconClass" style="font-size: 200px;"></i>
+                    </a>
+                </div>
+            </div>
 
-        <div ng-show="loading">
-            <div class="circle-inner-inner"></div>
-            <div class="circle-inner"></div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Setting</div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr><td>Algoritma Rekonstruksi</td><td>: <b>{{eitSettings.algor}}</b></td><tr>
+                            <tr><td>Arus Injeksi</td><td>: <b>{{eitSettings.arus}} miliampere</b></td><tr>
+                            <tr><td>Kerapatan Citra</td><td>: <b>{{eitSettings.kerapatan}}</b></td><tr>
+                            <tr><td>Colorbar Citra</td><td>: <b>{{colorbar}}</b></td><tr>
+                        </table>
+                        <a ui-sref="app.defaultsetting" class="btn btn-primary pull-right">Change setting</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="loadImage">
+            	<span id="loading1">
+                	<span id="outerCircle"></span>
+                	<span id="innerCircle"></span>
+                </span>
         </div>
     </div>
 </div>

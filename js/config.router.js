@@ -120,6 +120,21 @@ angular.module('app')
               })
 
               // EIT instrument
+              .state('app.defaultsetting', {
+                  url: '/setting',
+                  controller: 'SettingCtrl',
+                  templateUrl: 'tpl/raspieit/setting.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad){
+                          return $ocLazyLoad.load('toaster').then(
+                              function() {
+                                  return $ocLazyLoad.load('js/raspEIT/controllers/setting.js');
+                              }
+                          );
+                      }]
+                  }
+              })
               .state('app.statuseit', {
                   url: '/status',
                   controller: 'StatusCtrl',

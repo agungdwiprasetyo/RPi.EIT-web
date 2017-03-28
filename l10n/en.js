@@ -29,6 +29,7 @@
     },
     "alat" : {
       "SUB": "EIT Instrument",
+      "SETTING" : "Setting",
       "STATUS" : "Status",
       "CONDITION" : "Shut Down"
     }

@@ -1,11 +1,11 @@
 // config
 
-var app =  
+var app =
 angular.module('app')
   .config(
     ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide',
     function ($controllerProvider,   $compileProvider,   $filterProvider,   $provide) {
-        
+
         // lazy controller, directive and service
         app.controller = $controllerProvider.register;
         app.directive  = $compileProvider.directive;
@@ -28,6 +28,9 @@ angular.module('app')
     $translateProvider.preferredLanguage('en');
     // Tell the module to store the language in the local storage
     $translateProvider.useLocalStorage();
-  }]);
-  
+}]);
+  // .config(["$locationProvider", function($locationProvider) {
+  //     $locationProvider.html5Mode(true);
+  // }]);
+
 app.value('UrlServer', 'server/')

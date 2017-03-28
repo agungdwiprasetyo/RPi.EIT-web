@@ -1,0 +1,55 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3 text-center">Default Setting
+  </h1>
+</div>
+<toaster-container toaster-options="{'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
+<div class="wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading text-center m-n font-thin h4">Default Setting</div>
+                    <div class="panel-body">
+                      <form class="form-horizontal form-validation">
+                          <div class="form-group">
+                          <label class="col-lg-4 control-label">Algoritma Rekonstruksi:</label>
+                              <div class="col-lg-8">
+                                  <div class="radio" ng-repeat="algor in algors">
+                                  <label class="i-checks">
+                                    <input type="radio" name="algor" value="{{algor.id_algor}}" ng-model="eitSettings.algor">
+                                    <i></i>
+                                    {{algor.nama_algor}}
+                                  </label>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-4 control-label">Arus Injeksi:</label>
+                              <div class="col-lg-8">
+                                  <input type="text" class="form-control" placeholder="Arus Injeksi" ng-model="eitSettings.arus" required="required">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-4 control-label">Kerapatan:</label>
+                              <div class="col-lg-8">
+                                  <input type="text" class="form-control" placeholder="Kerapatan" ng-model="eitSettings.kerapatan" required="required">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-lg-4 control-label">Colorbar:</label>
+                              <div class="col-lg-8">
+                                  <div class="checkbox">
+                                      <label class="i-checks"><input type="checkbox" ng-model="eitSettings.colorbar"><i></i> Show Colorbar</label>
+                                  </div>
+                              </div>
+                          </div>
+                          <footer class="panel-footer text-right bg-light lter">
+                            <button type="submit" class="btn btn-info" ng-click="saveSetting()"><i class="fa fa-save"></i> Save Setting</button>
+                          </footer>
+                      </form>
+                    </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
