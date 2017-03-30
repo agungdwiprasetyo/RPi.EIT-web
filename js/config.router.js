@@ -87,7 +87,11 @@ angular.module('app')
                       deps: ['$ocLazyLoad', function( $ocLazyLoad){
                           return $ocLazyLoad.load('ui.select').then(
                               function(){
-                                  return $ocLazyLoad.load('js/raspEIT/controllers/reconstruction.js');
+                                  return $ocLazyLoad.load('toaster').then(
+                                      function(){
+                                          return $ocLazyLoad.load('js/raspEIT/controllers/reconstruction.js')
+                                      }
+                                  );
                               }
                           );
                       }]
@@ -98,8 +102,13 @@ angular.module('app')
                   controller: 'RealtimeCtrl',
                   templateUrl: 'tpl/raspieit/realtime.html',
                   resolve: {
-                      deps: ['$ocLazyLoad', function( $ocLazyLoad){
-                          return $ocLazyLoad.load('js/raspEIT/controllers/realtime.js');
+                      deps: ['$ocLazyLoad',
+                        function($ocLazyLoad){
+                          return $ocLazyLoad.load('toaster').then(
+                              function(){
+                                 return $ocLazyLoad.load('js/raspEIT/controllers/realtime.js');
+                              }
+                          );
                       }]
                   }
               })

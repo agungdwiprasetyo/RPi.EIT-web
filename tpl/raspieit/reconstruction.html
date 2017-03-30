@@ -3,58 +3,92 @@
 </div>
 
 <div class="wrapper-md">
-  <div class="col-sm-6 col-md-offset-2">
-  <alert class="text-center" ng-repeat="alert in alerts" type="{{alert.type}}" ng-hide="showImage">{{alert.msg}}</alert>
-    <div class="row" ng-hide="loadImage || showImage">
-        <form class="form-validation">
-          <div class="panel panel-default">
-            <div class="panel-body">
-                <p class="text-muted" ng-click="haha()">Masukkan atribut citra yang akan didapatkan</p>
-              <div class="form-group">
-                <label>Kerapatan <em class="text-muted">(0.01 s.d 0.9, optimal resolution: 0.05)&nbsp</em></label>:&nbsp{{valKerapatan}}
-                     <div class="text-center"><input id="slider" ui-jq="slider" ui-options="kerapatanOp" class="slider slider-horizontal form-control text-center" type="text"/></div>
-              </div>
-              <div class="form-group">
-                <label>Algoritma Rekonstruksi <em class="text-muted">(best: Back Projection)&nbsp</em>:</label>
-                  <ui-select ng-model="valAlgor.selectedAlgor" theme="bootstrap" ng-change="cekData()">
-                    <ui-select-match placeholder="Pilih algoritma rekonstruksi dalam list...">{{$select.selected.nama_algor}}</ui-select-match>
-                    <ui-select-choices repeat="algor in dataAlgor | filter: $select.search" value="{{$select.selected.id_algor}}">
-                      <div ng-bind-html="algor.id_algor | highlight: $select.search"></div>
-                      <small ng-bind-html="algor.nama_algor | highlight: $select.search"></small>
-                    </ui-select-choices>
-                  </ui-select>
-              </div>
-
-              <div class="form-group">
-                <label>Pilih Data:</label>
-                  <ui-select ng-model="valData.selectedData" theme="bootstrap" ng-change="cekData()">
-                    <ui-select-match placeholder="Pilih data yang telah diukur...">{{$select.selected.nama_data}}</ui-select-match>
-                    <ui-select-choices repeat="data in dataUkur | filter: $select.search">
-                      <div ng-bind-html="data.nama_data | highlight: $select.search"></div>
-                      Arus Injeksi: <small ng-bind-html="data.arus_injeksi | highlight: $select.search"></small> mA
-                    </ui-select-choices>
-                  </ui-select>
-              </div>
-              <div class="form-group">
-                  <div class="checkbox pull-right">
-                      <label class="i-checks"><input type="checkbox" ng-init="colorbar=false" ng-model="colorbar"><i></i> Show Colorbar</label>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-7">
+                <div ng-hide="loadImage || showImage">
+                    <form class="form-validation">
+                      <div class="panel panel-success">
+                        <div class="panel-heading h4 text-center">Pilih Data yang Akan Direkonstruksi</div>
+                        <div class="panel-body">
+                          <div class="form-group">
+                            <label>Pilih Data:</label>
+                              <ui-select ng-model="valData.selectedData" theme="bootstrap" ng-change="cekData()">
+                                <ui-select-match placeholder="Pilih data yang telah diukur...">{{$select.selected.nama_data}}</ui-select-match>
+                                <ui-select-choices repeat="data in dataUkur | filter: $select.search">
+                                  {{$index+1}}<div ng-bind-html="data.nama_data | highlight: $select.search"></div>
+                                  Arus Injeksi: <small ng-bind-html="data.arus_injeksi | highlight: $select.search"></small> mA
+                                </ui-select-choices>
+                              </ui-select>
+                          </div>
+                        </div>
+                        <footer class="panel-footer text-right bg-light lter">
+                          <button type="submit" class="btn btn-lg btn-success" ng-click="reconstruction(valData.selectedData.filename)" ng-disabled='disableBtn'><i class="glyphicon glyphicon-fire"></i> Run</button>
+                        </footer>
+                      </div>
+                    </form>
                 </div>
-              </div>
+                <div ng-show="loadImage">
+                    <span id="loading1">
+                        <span id="outerCircle"></span>
+                        <span id="innerCircle"></span>
+                    </span>
+                </div>
             </div>
-            <footer class="panel-footer text-right bg-light lter">
-              <button type="submit" class="btn btn-lg btn-success" ng-click="reconstruction(valAlgor.selectedAlgor.id_algor, valData.selectedData.filename)" ng-disabled='disableBtn'><i class="glyphicon glyphicon-fire"></i> Run</button>
-            </footer>
-          </div>
-        </form>
+
+            <div class="col-md-5" ng-hide="showImage">
+                <div class="panel panel-success">
+                    <div class="panel-heading h4 text-center">Setting</div>
+                    <div class="panel-body">
+                        <div ng-init="settingSession=false" ng-show="!settingSession">
+                            <table class="table">
+                                <tr><td style="width:50%" align="right">Algoritma Rekonstruksi</td><td style="width:7%">:</td><td> <b>{{eitSettings.algor}}</b></td></tr>
+                                <tr><td align="right">Kerapatan Citra</td><td>:</td><td> <b>{{eitSettings.kerapatan}}</b></td></tr>
+                                <tr><td align="right">Colorbar Citra</td><td>:</td><td> <b>{{colorbar}}</b></td></tr>
+                            </table>
+                            <a ng-click="changeSetting()" class="btn btn-primary pull-right">Change setting</a>
+                        </div>
+
+                        <div ng-show="settingSession">
+                            <form class="form-horizontal form-validation">
+                                <div class="form-group">
+                                <label class="col-lg-4 control-label">Algoritma Rekonstruksi:</label>
+                                    <div class="col-lg-8">
+                                        <div class="radio" ng-repeat="algor in dataAlgor">
+                                        <label class="i-checks">
+                                          <input type="radio" name="algor" value="{{algor.id_algor}}" ng-model="eitSettings.algor">
+                                          <i></i>
+                                          {{algor.nama_algor}}
+                                        </label>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Kerapatan:</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" placeholder="Kerapatan" ng-model="eitSettings.kerapatan" required="required">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Colorbar:</label>
+                                    <div class="col-lg-8">
+                                        <div class="checkbox">
+                                            <label class="i-checks"><input type="checkbox" ng-model="eitSettings.colorbar"><i></i> Show Colorbar</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <footer class="panel-footer text-right bg-light lter">
+                                  <button type="submit" class="btn btn-info" ng-click="saveSetting()"><i class="fa fa-save"></i> OK</button>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<!-- Loading section -->
-<div ng-show="loadImage">
-    <div class="circle-inner-inner"></div>
-    <div class="circle-inner"></div>
-</div>
 
 <!-- Hasil citra -->
 <div class="col-md-12" ng-show="showImage">

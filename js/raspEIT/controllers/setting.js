@@ -1,4 +1,5 @@
-app.controller('SettingCtrl', ['$scope', '$localStorage', 'toaster', '$http', function($scope, $localStorage, toaster, $http) {
+app.controller('SettingCtrl', ['$scope', '$localStorage', 'toaster', '$http',
+function($scope, $localStorage, toaster, $http) {
     $http({
         method  : 'GET',
         url     : '/algor',
@@ -14,7 +15,8 @@ app.controller('SettingCtrl', ['$scope', '$localStorage', 'toaster', '$http', fu
         algor: 'BP',
         arus: 7.5,
         kerapatan: 0.05,
-        colorbar: false
+        colorbar: false,
+        saveData: true
     };
 
     if (angular.isDefined($localStorage.eitSettings) ) {
@@ -26,6 +28,7 @@ app.controller('SettingCtrl', ['$scope', '$localStorage', 'toaster', '$http', fu
     $scope.saveSetting = function(){
         $localStorage.eitSettings = $scope.eitSettings;
         toaster.pop("success", "Sukses", "Sukses save setting.");
+        // $window.history.back();
     }
 
     // $scope.$watch('eitSettings', function(){
