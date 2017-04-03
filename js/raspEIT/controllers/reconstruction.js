@@ -22,6 +22,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
     $scope.disableBtn = true;
     $scope.loadImage = false;
     $scope.showImage = false;
+    $scope.dataClicked = "No data selected";
 
     socket.on('notifFinish', function(data) {
         $scope.loadImage = false;
@@ -29,6 +30,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
         $scope.waktu = data['waktu'];
         $scope.imageName = data['filename'];
         $scope.judul5 = "Hasil";
+        toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
     });
 
     // form kerapatan
@@ -49,17 +51,27 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
     });
 
     // select form data and algor
+    $scope.selectData = {
+        id: "",
+        filename: "",
+        arus: ""
+    }
     $scope.valAlgor = {};
     $scope.valAlgor.selectedAlgor = [];
     $scope.valData = {};
     $scope.valData.selectedData = [];
 
-    $scope.cekData = function(){
-        if($scope.valData.selectedData.id_data){
-            $scope.disableBtn = false;
-        }
+    $scope.cekData = function(id, filename, arus, nama){
+        $scope.selectData.id = id;
+        $scope.selectData.filename = filename;
+        $scope.selectData.arus = arus;
+        $scope.disableBtn = false;
+        $scope.dataClicked = nama;
+        // if($scope.valData.selectedData.id_data){
+        //     $scope.disableBtn = false;
+        // }
     };
-	$scope.reconstruction = function(namadata){
+	$scope.reconstruction = function(){
         $scope.alerts = [{type: 'info', msg: 'Sedang merekonstruksi citra. (Data: '+$scope.valData.selectedData.nama_data+', Algoritma: '+$scope.valAlgor.selectedAlgor.nama_algor+')...'}];
         $scope.loadImage = true;
         $scope.judul5 = "Processing....";
@@ -67,9 +79,9 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
             status: true,
             tipe: 'fromdata',
             kerapatan: parseFloat($localStorage.eitSettings.kerapatan),
-            arus: parseFloat($scope.valData.selectedData.arus_injeksi),
-            iddata: $scope.valData.selectedData.id_data,
-            data: namadata,
+            arus: parseFloat($scope.selectData.arus),
+            iddata: $scope.selectData.id,
+            data: $scope.selectData.filename,
             algor: $localStorage.eitSettings.algor,
             colorbar: $localStorage.eitSettings.colorbar
         });
@@ -90,6 +102,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
                 headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
             }).success(function(data){
                 console.log('sukses delete');
+                toaster.pop("warning", "Citra dihapus");
             }).error(function(e){
                 alert(':(');
             });
@@ -103,9 +116,15 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
     };
     $scope.saveSetting = function(){
         $scope.settingSession = false;
-        toaster.pop("success", "Setting saved");
+        toaster.pop("success", "Setting saved", "Algoritma Rekonstruksi: "+$scope.eitSettings.algor+
+            "\nKerapatan: "+$scope.eitSettings.kerapatan+
+            "\nInjeksi Arus: "+$scope.eitSettings.arus);
     };
     $scope.eitSettings = $localStorage.eitSettings;
     if($scope.eitSettings.colorbar) $scope.colorbar="Yes";
     else $scope.colorbar="No";
+    // $scope.$watch('eitSettings', function(){
+    //   $localStorage.eitSettings = $scope.eitSettings;
+    //   toaster.pop("success", "Setting saved");
+    // }, true);
 }]);

@@ -1,6 +1,7 @@
 app.controller('DataCtrl', ['$scope', '$rootScope', '$http', 'toaster', '$interval', '$state', function($scope, $rootScope, $http, toaster, $interval, $state){
     $interval(function(){}, 10);
     $scope.judul4 = "Data Hasil Pengukuran Tegangan";
+    $scope.alerts = [{type: 'info', msg: 'Upload data tegangan hanya dalam file berekstensi .txt dan jumlah data dalam file sebanyak 208 data tegangan.'}];
 
     $http.get($rootScope.host+'/data')
         .success(function(data){
@@ -63,22 +64,46 @@ app.controller('DetailDataCtrl', ['$scope', '$stateParams', '$http', '$rootScope
         url     : '/data',
         headers : { 'Content-Type': 'application/x-www-form-urlencoded', 'iddata': $stateParams.idData+'.txt' }
     }).success(function(data){
-        $scope.infoData = data;
+        $scope.infoData = {
+            namaData: data[0].nama_data,
+            arus: data[0].arus_injeksi,
+            filename: data[0].filename,
+            model: data[0].model,
+            datetime: data[0].datetime
+        }
     }).error(function(e){
         alert(':(');
     });
 
-    $scope.lbel = $stateParams.idData;
     var xData = [];
+    var tableData = [];
+    var temp = new Array();
     $http.get('./data/'+$stateParams.idData+'.txt')
         .success(function(data){
-            $scope.showData = data;
-            var temp = new Array();
+            var elektroda=0, aPos, aNeg, vPos, vNeg;
             temp = data.split("\n");
-            for(var i = 0; i < temp.length; i++) {
+            var dataLength = temp.length;
+            for(var i = 0; i < dataLength; i++) {
                 xData.push([i,parseFloat(temp[i])]);
+
+                if(i%13==0){
+                    aPos=parseInt(i/13);
+                    aNeg=aPos+1;
+                    if(aNeg==16) aNeg=0;
+                    vPos=aNeg+1;
+                    vNeg=vPos+1;
+                    tableData.push({elecArus:(aPos)+"-"+(aNeg), elecTegangan:(vPos)+"-"+(vNeg),voltage:parseFloat(temp[i])});
+                }else{
+                    vPos++;
+                    if(vPos>15) vPos=0;
+                    vNeg=vPos+1;
+                    if(vNeg>15) vNeg=0;
+                    tableData.push({elecTegangan:(vPos)+"-"+(vNeg),voltage:parseFloat(temp[i])});
+                }
             }
+            
             $scope.XData = xData;
+            $scope.TableData = tableData;
         })
         .error(function(e) {
             console.log("error");

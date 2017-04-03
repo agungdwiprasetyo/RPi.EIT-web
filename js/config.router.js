@@ -51,6 +51,21 @@ angular.module('app')
                   url: '/data',
                   template: '<div ui-view></div>'
               })
+              .state('app.data.coba', {
+                  url: '/cobatabel',
+                  controller: 'DataCtrl',
+                  templateUrl: 'tpl/raspieit/data/footable.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function($ocLazyLoad){
+                          return $ocLazyLoad.load('toaster').then(
+                              function(){
+                                 return $ocLazyLoad.load('js/raspEIT/controllers/dataukur.js');
+                              }
+                          );
+                      }]
+                  }
+              })
               .state('app.data.home', {
                   url: '/all',
                   controller: 'DataCtrl',

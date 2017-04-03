@@ -18,7 +18,7 @@
     "DASHBOARD" : "Dashboard",
     "CALENDAR" : "Calendar",
     "DAYA" : "Penggunaan Daya",
-    "ALGOR" : "Algoritma EIT",
+    "ALGOR" : "EIT Algorithms",
     "DATA" : "Data",
     "components" : {
       "SUB" : "Image",
@@ -29,8 +29,8 @@
     },
     "alat" : {
       "SUB": "EIT Instrument",
+      "LIST" : "Registered",
       "SETTING" : "Setting",
-      "STATUS" : "Status",
       "CONDITION" : "Shut Down"
     }
   },

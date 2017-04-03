@@ -2,7 +2,7 @@ app.controller('RealtimeCtrl', ['$scope', '$rootScope', 'socket', '$interval', '
 function($scope, $rootScope, socket, $interval, $localStorage, $http, toaster) {
     $interval(function(){},10);
     var alertOnline = [{type: 'success', msg: 'Perangkat EIT sedang Online, klik tombol dibawah ini untuk mulai mendapatkan citra dari objek'}];
-    var alertOffline = [{type: 'danger', msg: 'Perangkat EIT sedang Offline, hidupkan alat untuk memulai rekonstruksi citra.'}];
+    var alertOffline = [{type: 'danger', msg: 'Perangkat EIT sedang Offline, hidupkan alat untuk memulai rekonstruksi citra dari objek yang diinginkan.'}];
     var alertCollectData = [{type: 'warning', msg: 'Sedang mengumpulkan data dari perangkat EIT...'}];
     var alertStartReconstruction = [{type: 'info', msg: 'Selesai mengambil data, memulai rekonstruksi citra...'}];
     var alertFinish = [{type: 'success', msg: 'Sukses merekonstruksi citra dari objek pada perangkat EIT (autosave)'}];

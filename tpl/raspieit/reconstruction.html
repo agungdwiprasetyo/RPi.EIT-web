@@ -1,16 +1,116 @@
-<div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3" ng-click="cobak()" ng-init="judul5='Rekonstruksi Citra'">{{judul5}}</h1>
-</div>
-
-<div class="wrapper-md">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-7">
-                <div ng-hide="loadImage || showImage">
-                    <form class="form-validation">
+<div ui-view>
+    <div class="bg-light lter b-b wrapper-md">
+      <h1 class="m-n font-thin h3" ng-click="cobak()" ng-init="judul5='Rekonstruksi Citra'">{{judul5}}</h1>
+      <h2 class="font-thin pull-right">{{counter}}</h2>
+    </div>
+    <div class="wrapper-md">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-7">
+                    <div ng-hide="loadImage || showImage">
                       <div class="panel panel-success">
                         <div class="panel-heading h4 text-center">Pilih Data yang Akan Direkonstruksi</div>
+                            <div class="panel-body b-b b-light">
+                              Search: <input id="filter" type="text" class="form-control input-sm w-sm inline m-r"/>
+                            </div>
+                            <div>
+                                <table class="table table-striped b-t b-light" ui-jq="footable" data-filter="#filter" data-page-size="20">
+                                  <thead style="display:block;">
+                                    <tr>
+                                      <th style="width:10%" class="text-center">Pilih</th>
+                                      <th style="width:20%">Nama Data</th>
+                                      <th style="width:25%">Filename</th>
+                                      <th style="width:15%">Arus Injeksi</th>
+                                      <td style="width:10%"></td>
+                                    </tr>
+                                  </thead>
+                                  <tbody style="overflow-y: scroll; height: 310px; display:block;">
+                                    <tr ng-repeat="data in dataUkur" foo-repeat-done>
+                                      <td style="width:10%"><label class="i-checks m-b-none"><input type="radio" name="data" value="{{data.filename}}" ng-click="cekData(data.id_data,data.filename,data.arus_injeksi,data.nama_data)"><i></i></label>{{$index+1}}</td>
+                                      <td style="width:20%" class="font-bold">{{data.nama_data}}</td>
+                                      <td style="width:25%">{{data.filename}}</td>
+                                      <td style="width:15%" class="text-center">{{data.arus_injeksi}} mA</td>
+                                      <td style="width:10%" class="text-center"><a href="" ui-sref="app.data.id({idData: data.filename.slice(0, -4)})" class="btn btn-sm btn-primary">Lihat data</a></td>
+                                    </tr>
+                                  </tbody>
+                                  <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <ul class="pagination"></ul>
+                                        </td>
+                                    </tr>
+                                  </tfoot>
+                                </table>
+                            </div>
+                        <footer class="panel-footer text-right bg-light lter">
+                            <div class="pull-left">Selected: <b>{{dataClicked}}</b></div>
+                            <button type="submit" class="btn btn-lg btn-success" ng-click="reconstruction()" ng-disabled='disableBtn'><i class="glyphicon glyphicon-fire"></i> Run</button>
+                        </footer>
+                      </div>
+                    </div>
+                    <div ng-show="loadImage">
+                        <span id="loading1">
+                            <span id="outerCircle"></span>
+                            <span id="innerCircle"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-5" ng-hide="showImage">
+                    <div class="panel panel-success">
+                        <div class="panel-heading h4 text-center">Setting</div>
                         <div class="panel-body">
+                            <div ng-init="settingSession=false" ng-show="!settingSession">
+                                <table class="table">
+                                    <tr><td style="width:50%" align="right">Algoritma Rekonstruksi</td><td style="width:7%">:</td><td> <b>{{eitSettings.algor}}</b></td></tr>
+                                    <tr><td align="right">Kerapatan Citra</td><td>:</td><td> <b>{{eitSettings.kerapatan}}</b></td></tr>
+                                    <tr><td align="right">Colorbar Citra</td><td>:</td><td> <b>{{colorbar}}</b></td></tr>
+                                </table>
+                                <a ng-click="changeSetting()" class="btn btn-primary pull-right">Change setting</a>
+                            </div>
+
+                            <div ng-show="settingSession">
+                                <form class="form-horizontal form-validation">
+                                    <div class="form-group">
+                                    <label class="col-lg-4 control-label">Algoritma Rekonstruksi:</label>
+                                        <div class="col-lg-8">
+                                            <div class="radio" ng-repeat="algor in dataAlgor">
+                                            <label class="i-checks">
+                                              <input type="radio" name="algor" value="{{algor.id_algor}}" ng-model="eitSettings.algor">
+                                              <i></i>
+                                              {{algor.nama_algor}}
+                                            </label>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-4 control-label">Kerapatan:</label>
+                                        <div class="col-lg-8">
+                                            <input type="text" class="form-control" placeholder="Kerapatan" ng-model="eitSettings.kerapatan" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-4 control-label">Colorbar:</label>
+                                        <div class="col-lg-8">
+                                            <div class="checkbox">
+                                                <label class="i-checks"><input type="checkbox" ng-model="eitSettings.colorbar"><i></i> Show Colorbar</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <footer class="panel-footer text-right bg-light lter">
+                                      <button type="submit" class="btn btn-info" ng-click="saveSetting()"><i class="fa fa-save"></i> OK</button>
+                                    </footer>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                          <!-- <form class="form-validation">
                           <div class="form-group">
                             <label>Pilih Data:</label>
                               <ui-select ng-model="valData.selectedData" theme="bootstrap" ng-change="cekData()">
@@ -20,108 +120,42 @@
                                   Arus Injeksi: <small ng-bind-html="data.arus_injeksi | highlight: $select.search"></small> mA
                                 </ui-select-choices>
                               </ui-select>
-                          </div>
-                        </div>
-                        <footer class="panel-footer text-right bg-light lter">
-                          <button type="submit" class="btn btn-lg btn-success" ng-click="reconstruction(valData.selectedData.filename)" ng-disabled='disableBtn'><i class="glyphicon glyphicon-fire"></i> Run</button>
-                        </footer>
-                      </div>
-                    </form>
-                </div>
-                <div ng-show="loadImage">
-                    <span id="loading1">
-                        <span id="outerCircle"></span>
-                        <span id="innerCircle"></span>
-                    </span>
+                          </div>valData.selectedData.filename
+                          </form> -->
+
+    <!-- Hasil citra -->
+    <div class="col-md-12" ng-show="showImage">
+        <div class="col-lg-6 col-md-offset-1">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <!-- <div class="pull-right"><a href="" ng-click="closeImage()" title="Close Image"><i class="fa fa-times"></i></a></div> -->
+                    <img ng-src="img/results/{{imageName}}" class="img-full">
                 </div>
             </div>
-
-            <div class="col-md-5" ng-hide="showImage">
-                <div class="panel panel-success">
-                    <div class="panel-heading h4 text-center">Setting</div>
-                    <div class="panel-body">
-                        <div ng-init="settingSession=false" ng-show="!settingSession">
-                            <table class="table">
-                                <tr><td style="width:50%" align="right">Algoritma Rekonstruksi</td><td style="width:7%">:</td><td> <b>{{eitSettings.algor}}</b></td></tr>
-                                <tr><td align="right">Kerapatan Citra</td><td>:</td><td> <b>{{eitSettings.kerapatan}}</b></td></tr>
-                                <tr><td align="right">Colorbar Citra</td><td>:</td><td> <b>{{colorbar}}</b></td></tr>
-                            </table>
-                            <a ng-click="changeSetting()" class="btn btn-primary pull-right">Change setting</a>
-                        </div>
-
-                        <div ng-show="settingSession">
-                            <form class="form-horizontal form-validation">
-                                <div class="form-group">
-                                <label class="col-lg-4 control-label">Algoritma Rekonstruksi:</label>
-                                    <div class="col-lg-8">
-                                        <div class="radio" ng-repeat="algor in dataAlgor">
-                                        <label class="i-checks">
-                                          <input type="radio" name="algor" value="{{algor.id_algor}}" ng-model="eitSettings.algor">
-                                          <i></i>
-                                          {{algor.nama_algor}}
-                                        </label>
-                                      </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-4 control-label">Kerapatan:</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control" placeholder="Kerapatan" ng-model="eitSettings.kerapatan" required="required">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-4 control-label">Colorbar:</label>
-                                    <div class="col-lg-8">
-                                        <div class="checkbox">
-                                            <label class="i-checks"><input type="checkbox" ng-model="eitSettings.colorbar"><i></i> Show Colorbar</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <footer class="panel-footer text-right bg-light lter">
-                                  <button type="submit" class="btn btn-info" ng-click="saveSetting()"><i class="fa fa-save"></i> OK</button>
-                                </footer>
-                            </form>
-                        </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">Detail Citra</div>
+                <div class="list-group">
+                  <div class="list-group-item">
+                    Waktu eksekusi: {{waktu}} detik
+                  </div>
+                  <div class="list-group-item">
+                    Algoritma rekonstruksi: {{valAlgor.selectedAlgor.nama_algor}}
+                  </div>
+                  <div class="list-group-item">
+                    Data: {{selectData.filename}}
+                  </div>
+                  <div class="list-group-item">
+                    Filename: {{imageName}}
+                  </div>
+                  <div class="list-group-item">
+                      <div class="text-center"</div>
+                        <button class="btn btn-success" ng-click="closeImage()">Save Image</button>
+                        <button class="btn btn-danger" ng-click="deleteImage()">Delete Image</button>
                     </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Hasil citra -->
-<div class="col-md-12" ng-show="showImage">
-    <div class="col-lg-6 col-md-offset-1">
-        <div class="panel panel-primary">
-            <div class="panel-body">
-                <!-- <div class="pull-right"><a href="" ng-click="closeImage()" title="Close Image"><i class="fa fa-times"></i></a></div> -->
-                <img ng-src="img/results/{{imageName}}" class="img-full">
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="panel panel-success">
-            <div class="panel-heading">Detail Citra</div>
-            <div class="list-group">
-              <div class="list-group-item">
-                Waktu eksekusi: {{waktu}} detik
-              </div>
-              <div class="list-group-item">
-                Algoritma rekonstruksi: {{valAlgor.selectedAlgor.nama_algor}}
-              </div>
-              <div class="list-group-item">
-                Data: {{valData.selectedData.nama_data}}
-              </div>
-              <div class="list-group-item">
-                Filename: {{imageName}}
-              </div>
-              <div class="list-group-item">
-                  <div class="text-center"</div>
-                    <button class="btn btn-success" ng-click="closeImage()">Save Image</button>
-                    <button class="btn btn-danger" ng-click="deleteImage()">Delete Image</button>
-                </div>
-              </div>
             </div>
         </div>
     </div>

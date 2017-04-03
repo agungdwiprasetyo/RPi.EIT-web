@@ -5,77 +5,119 @@
       </button>
   </h1>
 </div>
-<toaster-container toaster-options="{'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
 <div class="wrapper-md">
-    <div class="row col-lg-12">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading font-bold">Detail data {{lbel}}</div>
-                    <table class="table" ng-repeat="data in infoData">
-                        <tr>
-                            <td style="width:40%" align="right">Data</td>
-                            <td style="width:7%">:</td>
-                            <td class="font-bold">{{data.nama_data}}</td>
-                        </tr>
-                        <tr>
-                            <td style="width:40%" align="right">Arus Injeksi</td>
-                            <td style="width:7%">:</td>
-                            <td class="font-bold">{{data.arus_injeksi}}</td>
-                        </tr>
-                        <tr>
-                            <td style="width:40%" align="right">Filename</td>
-                            <td style="width:7%">:</td>
-                            <td class="font-bold">{{data.filename}}</td>
-                        </tr>
-                        <tr>
-                            <td style="width:40%" align="right">Tanggal</td>
-                            <td style="width:7%">:</td>
-                            <td class="font-bold">{{data.datetime | date:'dd-MM-yyyy'}}</td>
-                        </tr>
-                    </table>
-            </div>
-        </div>
-        <div class="col-md-8">
-          <div class="panel panel-default">
-            <div class="panel-heading font-bold">Grafik data</div>
-            <div class="panel-body">
-              <div ui-jq="plot" ui-options="[
-              {
-                'data': {{XData}},
-                'points': { 'show': true },
-                'lines': {
-                    'show': true,
-                    'fill': true,
-                    'fillColor': {
-                        'colors': [ { 'opacity': 0.1 }, { 'opacity': 0.1} ]
+    <div class="row">
+        <div class="col-md-12">
+            <alert type="success" class="text-center"><h4>Data ini menggunakan arus injeksi sebesar {{infoData.arus}} miliampere</h4></alert>
+              <div class="panel panel-info">
+                <div class="panel-heading m-n h4">Grafik data</div>
+                <div class="panel-body">
+                  <div ui-jq="plot" ui-options="[
+                  {
+                    'data': {{XData}},
+                    'points': { 'show': true },
+                    'lines': {
+                        'show': true,
+                        'fill': true,
+                        'fillColor': {
+                            'colors': [ { 'opacity': 0.1 }, { 'opacity': 0.1} ]
+                        }
                     }
-                }
-              }
-              ],
-              {
-                'colors': ['{{app.color.info}}'],
-                'series': { 'shadowSize': 2 },
-                'xaxis':{ 'font': { 'color': '#ccc' } },
-                'yaxis':{ 'font': { 'color': '#ccc' } },
-                'grid': { 'hoverable': true, 'clickable': true, 'borderWidth': 0, 'color': '#ccc' },
-                'tooltip': true,
-                'tooltipOpts': {
-                    'content': '%s of %x.1 is %y.4',
-                    'defaultTheme': false,
-                    'shifts': { 'x': 0, 'y': 20 }
-                }
-              }" style="height:240px"></div>
-            </div>
-          </div>
+                  }
+                  ],
+                  {
+                    'colors': ['{{app.color.info}}'],
+                    'series': { 'shadowSize': 2 },
+                    'xaxis':{ 'font': { 'color': '#ccc' } },
+                    'yaxis':{ 'font': { 'color': '#ccc' } },
+                    'grid': { 'hoverable': true, 'clickable': true, 'borderWidth': 0, 'color': '#ccc' },
+                    'tooltip': true,
+                    'tooltipOpts': {
+                        'content': '%s of %x.1 is %y.4',
+                        'defaultTheme': false,
+                        'shifts': { 'x': 0, 'y': 20 }
+                    }
+                  }" style="height:240px"></div>
+                </div>
+              </div>
+            <!-- <div class="col-lg-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading m-n h4">Detail {{infoData.namaData}}</div>
+                        <table class="table" style="height:270px;">
+                            <tr>
+                                <td style="width:40%" align="right">Nama Data</td>
+                                <td style="width:7%">:</td>
+                                <td class="font-bold">{{infoData.namaData}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:40%" align="right">Arus Injeksi</td>
+                                <td style="width:7%">:</td>
+                                <td class="font-bold">{{infoData.arus}} miliampere</td>
+                            </tr>
+                            <tr>
+                                <td style="width:40%" align="right">Filename</td>
+                                <td style="width:7%">:</td>
+                                <td class="font-bold">{{infoData.filename}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:40%" align="right">Tanggal</td>
+                                <td style="width:7%">:</td>
+                                <td class="font-bold">{{infoData.datetime | date:'dd-MM-yyyy'}}</td>
+                            </tr>
+                        </table>
+                </div>
+            </div> -->
         </div>
-    </div>
 
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">Isi Data</div>
-            <div class="panel-body">
-                {{showData}}
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading m-n h4">Model data</div>
+                    <div class="panel-body" style="height:521px;">
+                        <div class="col-md-12 text-center">
+                            <img ng-src="img/model/{{infoData.model}}" width="400px">
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading m-n h4">Isi Data</div>
+                    <div class="panel-body b-b b-light">
+                        Search: <input id="filter" type="text" class="form-control input-sm w-sm inline m-r"/>
+                        <button class="btn btn-success pull-right">Save csv</button>
+                    </div>
+                    <div>
+                        <table class="table table-striped b-t b-light" ui-jq="footable" data-filter="#filter" data-page-size="210">
+                            <thead style="display:block;">
+                              <tr>
+                                <th style="width:8%" class="text-center">No</th>
+                                <th style="width:11%" class="text-center">Elektroda Arus</th>
+                                <th style="width:13%" class="text-center">Elektroda Tegangan</th>
+                                <th style="width:15%" class="text-center">Tegangan (volt)</th>
+                              </tr>
+                            </thead>
+                            <tbody style="overflow-y: scroll; height: 400px; display:block;">
+                                <tr ng-repeat="data in TableData" foo-repeat-done>
+                                    <td style="width:1%" class="text-center">{{$index+1}}</td>
+                                    <td style="width:7%" class="text-center">{{data.elecArus}}</td>
+                                    <td style="width:5%">{{data.elecTegangan}}</td>
+                                    <td style="width:2%">{{data.voltage}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="hide">
+                              <tr>
+                                  <td colspan="5" class="text-center">
+                                      <ul class="pagination"></ul>
+                                  </td>
+                              </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
- </div>
+
+     </div>
+</div>
