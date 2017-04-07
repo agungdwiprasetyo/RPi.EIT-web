@@ -1,6 +1,6 @@
 <div ui-view>
     <div class="bg-light lter b-b wrapper-md">
-      <h1 class="m-n font-thin h3" ng-click="cobak()" ng-init="judul5='Rekonstruksi Citra'">{{judul5}}</h1>
+      <h1 class="m-n font-thin h3" ng-click="cobak()">{{judul5}}</h1>
       <h2 class="font-thin pull-right">{{counter}}</h2>
     </div>
     <div class="wrapper-md">
@@ -14,7 +14,7 @@
                               Search: <input id="filter" type="text" class="form-control input-sm w-sm inline m-r"/>
                             </div>
                             <div>
-                                <table class="table table-striped b-t b-light" ui-jq="footable" data-filter="#filter" data-page-size="20">
+                                <table class="table table-striped b-t b-light" ui-jq="footable" data-filter="#filter" data-page-size="10">
                                   <thead style="display:block;">
                                     <tr>
                                       <th style="width:10%" class="text-center">Pilih</th>
@@ -60,7 +60,7 @@
                     <div class="panel panel-success">
                         <div class="panel-heading h4 text-center">Setting</div>
                         <div class="panel-body">
-                            <div ng-init="settingSession=false" ng-show="!settingSession">
+                            <div ng-show="!settingSession">
                                 <table class="table">
                                     <tr><td style="width:50%" align="right">Algoritma Rekonstruksi</td><td style="width:7%">:</td><td> <b>{{eitSettings.algor}}</b></td></tr>
                                     <tr><td align="right">Kerapatan Citra</td><td>:</td><td> <b>{{eitSettings.kerapatan}}</b></td></tr>
@@ -129,7 +129,7 @@
             <div class="panel panel-primary">
                 <div class="panel-body">
                     <!-- <div class="pull-right"><a href="" ng-click="closeImage()" title="Close Image"><i class="fa fa-times"></i></a></div> -->
-                    <img ng-src="img/results/{{imageName}}" class="img-full">
+                    <img ng-src="./img/results/{{imageName}}" class="img-full">
                 </div>
             </div>
         </div>

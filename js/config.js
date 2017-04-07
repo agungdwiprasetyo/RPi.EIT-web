@@ -28,7 +28,27 @@ angular.module('app')
     $translateProvider.preferredLanguage('en');
     // Tell the module to store the language in the local storage
     $translateProvider.useLocalStorage();
-}]);
+}]).factory('socket', ['$rootScope', function($rootScope) {
+  var socket = io.connect();
+
+  return {
+    on: function(eventName, callback){
+      socket.on(eventName, callback);
+    },
+    emit: function(eventName, data) {
+      socket.emit(eventName, data);
+    }
+  };
+}]).factory('tglId', function() {
+  return {
+    on: function(datetime){
+        var bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        var tgl = datetime.substring(0,4);
+        return tgl;
+      //
+    }
+  };
+});
   // .config(["$locationProvider", function($locationProvider) {
   //     $locationProvider.html5Mode(true);
   // }]);

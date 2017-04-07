@@ -23,15 +23,8 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
     $scope.loadImage = false;
     $scope.showImage = false;
     $scope.dataClicked = "No data selected";
-
-    socket.on('notifFinish', function(data) {
-        $scope.loadImage = false;
-        $scope.showImage = true;
-        $scope.waktu = data['waktu'];
-        $scope.imageName = data['filename'];
-        $scope.judul5 = "Hasil";
-        toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
-    });
+    $scope.judul5='Rekonstruksi Citra';
+    $scope.settingSession=false;
 
     // form kerapatan
     $scope.valKerapatan = 0.1;
@@ -67,14 +60,11 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
         $scope.selectData.arus = arus;
         $scope.disableBtn = false;
         $scope.dataClicked = nama;
-        // if($scope.valData.selectedData.id_data){
-        //     $scope.disableBtn = false;
-        // }
     };
 	$scope.reconstruction = function(){
         $scope.alerts = [{type: 'info', msg: 'Sedang merekonstruksi citra. (Data: '+$scope.valData.selectedData.nama_data+', Algoritma: '+$scope.valAlgor.selectedAlgor.nama_algor+')...'}];
         $scope.loadImage = true;
-        $scope.judul5 = "Processing....";
+        $scope.judul5 = "Sedang merekonstruksi citra dari "+$scope.dataClicked;
 		socket.emit('runReconstruction', {
             status: true,
             tipe: 'fromdata',
@@ -86,6 +76,14 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
             colorbar: $localStorage.eitSettings.colorbar
         });
 	};
+    socket.on('notifFinish', function(data) {
+        $scope.loadImage = false;
+        $scope.showImage = true;
+        $scope.waktu = data['waktu'];
+        $scope.imageName = data['filename'];
+        $scope.judul5 = "Hasil citra "+$scope.dataClicked;
+        toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
+    });
     $scope.closeImage = function() {
         $scope.loadImage = false;
         $scope.showImage = false;

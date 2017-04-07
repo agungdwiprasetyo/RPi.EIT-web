@@ -14,7 +14,7 @@ function($scope, $rootScope, socket, $interval, $localStorage, $http, toaster) {
     }).success(function(data){
         $scope.algors = data;
     }).error(function(e){
-        alert(':(');
+        console.log(e);
     });
 
     $scope.realtimeSession = {

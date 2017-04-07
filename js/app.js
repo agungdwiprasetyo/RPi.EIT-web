@@ -6,6 +6,7 @@ angular.module('app', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
+    'ng-sweet-alert',
     'ngTouch',
     'ngStorage',
     'ui.router',
@@ -17,15 +18,4 @@ angular.module('app', [
     'pascalprecht.translate',
 	'base64',
 	'naif.base64'
-]).factory('socket', ['$rootScope', function($rootScope) {
-  var socket = io.connect();
-
-  return {
-    on: function(eventName, callback){
-      socket.on(eventName, callback);
-    },
-    emit: function(eventName, data) {
-      socket.emit(eventName, data);
-    }
-  };
-}]);
+]);

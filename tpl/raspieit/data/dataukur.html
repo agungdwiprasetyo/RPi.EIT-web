@@ -7,7 +7,6 @@
   </h1>
 </div>
 <div class="wrapper-md">
-<toaster-container toaster-options="{'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
   <div class="panel panel-primary" ng-show="mainData">
     <div class="panel-heading text-center m-n h4">Data Tegangan</div>
     <div class="panel-body b-b b-light">
@@ -48,7 +47,7 @@
 
   <div class="col-md-12" ng-show="!mainData">
     <div class="col-md-6 col-md-offset-2">
-        <alert ng-repeat="alert in alerts" type="{{alert.type}}" class="text-center">{{alert.msg}}</alert>
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" class="text-center"><h4>{{alert.msg}}</h4></alert>
         <div class="panel panel-info">
             <div class="panel-heading text-center m-n h4">Tambah Data Baru</div>
             <div class="panel-body">

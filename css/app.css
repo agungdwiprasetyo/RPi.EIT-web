@@ -4989,6 +4989,12 @@ a.text-#000000:hover {
           animation: movingbar 0.75s infinite;
 }
 
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 /* Moving bar */
 
 @-webkit-keyframes movingbar {

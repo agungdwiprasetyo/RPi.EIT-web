@@ -1,5 +1,5 @@
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Details Data
+  <h1 class="m-n font-bold h3">{{infoData.namaData}}
       <button class="btn btn-danger pull-right">
           <span class="text"><i class="fa fa-trash"></i> Delete this data</span>
       </button>
@@ -8,9 +8,57 @@
 <div class="wrapper-md">
     <div class="row">
         <div class="col-md-12">
-            <alert type="success" class="text-center"><h4>Data ini menggunakan arus injeksi sebesar {{infoData.arus}} miliampere</h4></alert>
-              <div class="panel panel-info">
-                <div class="panel-heading m-n h4">Grafik data</div>
+            <alert type="info" class="text-center">
+                <h4>Data ini menggunakan arus injeksi sebesar {{infoData.arus}} miliampere</h4>
+            </alert>
+        <div class="panel panel-primary">
+            <div class="panel-heading m-n h4">
+                    Model Objek
+                    <div class="pull-right">Hasil Citra Rekonstruksi</div>
+            </div>
+            <div class="panel-body">
+                    <div class="col-md-6">
+                        <div class="list-group text-center">
+                            <div class="list-group-item" ng-show="infoData.model">
+                                <img ng-src="img/model/{{infoData.model}}" width="400px">
+                            </div>
+                            <div ng-show="!infoData.model">
+                                No model
+                                <form class="form-horizontal form-validation" ng-submit="saveData()">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Add model</label>
+                                        <div class="col-lg-10">
+                                            <input type="file" name="file" id='file' required="required" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-center">
+                            <div class="list-group">
+                                <div class="list-group-item">
+                                    <div ng-show="infoData.citra">
+                                        <img ng-src="img/results/{{infoData.citra}}" width="400px">
+                                    </div>
+                                    <div ng-hide="infoData.citra">No Image</div>
+                                </div>
+                                <div class="list-group-item">
+                                    <a href="" sweetalert sweet-options="{{sweet.option}}" class="btn btn-lg btn-success"><i class="icon icon-control-play"></i> Start Reconstruction</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+              <div class="panel panel-primary">
+                <div class="panel-heading m-n h4 text-center">Grafik data</div>
                 <div class="panel-body">
                   <div ui-jq="plot" ui-options="[
                   {
@@ -69,54 +117,40 @@
             </div> -->
         </div>
 
-        <div class="col-md-12">
-            <div class="col-md-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading m-n h4">Model data</div>
-                    <div class="panel-body" style="height:521px;">
-                        <div class="col-md-12 text-center">
-                            <img ng-src="img/model/{{infoData.model}}" width="400px">
-                        </div>
-                    </div>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading m-n h4 text-center">Isi Data</div>
+                <div class="panel-body b-b b-light">
+                    <button class="btn btn-success pull-right">Save csv</button>
+                </div>
+                <div>
+                    <table class="table table-striped b-t b-light" ui-jq="footable" data-filter="#filter" data-page-size="210">
+                        <thead style="display:block;">
+                          <tr>
+                            <th style="width:8%" class="text-center">No</th>
+                            <th style="width:11%" class="text-center">Elektroda Arus (- +)</th>
+                            <th style="width:13%" class="text-center">Elektroda Tegangan (+ -)</th>
+                            <th style="width:15%" class="text-center">Tegangan (volt)</th>
+                          </tr>
+                        </thead>
+                        <tbody style="overflow-y: scroll; height: 400px; display:block;">
+                            <tr ng-repeat="data in TableData" foo-repeat-done>
+                                <td style="width:1%" class="text-center">{{$index+1}}</td>
+                                <td style="width:7%" class="text-center">{{data.elecArus}}</td>
+                                <td style="width:5%">{{data.elecTegangan}}</td>
+                                <td style="width:2%">{{data.voltage}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="hide">
+                          <tr>
+                              <td colspan="5" class="text-center">
+                                  <ul class="pagination"></ul>
+                              </td>
+                          </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading m-n h4">Isi Data</div>
-                    <div class="panel-body b-b b-light">
-                        Search: <input id="filter" type="text" class="form-control input-sm w-sm inline m-r"/>
-                        <button class="btn btn-success pull-right">Save csv</button>
-                    </div>
-                    <div>
-                        <table class="table table-striped b-t b-light" ui-jq="footable" data-filter="#filter" data-page-size="210">
-                            <thead style="display:block;">
-                              <tr>
-                                <th style="width:8%" class="text-center">No</th>
-                                <th style="width:11%" class="text-center">Elektroda Arus</th>
-                                <th style="width:13%" class="text-center">Elektroda Tegangan</th>
-                                <th style="width:15%" class="text-center">Tegangan (volt)</th>
-                              </tr>
-                            </thead>
-                            <tbody style="overflow-y: scroll; height: 400px; display:block;">
-                                <tr ng-repeat="data in TableData" foo-repeat-done>
-                                    <td style="width:1%" class="text-center">{{$index+1}}</td>
-                                    <td style="width:7%" class="text-center">{{data.elecArus}}</td>
-                                    <td style="width:5%">{{data.elecTegangan}}</td>
-                                    <td style="width:2%">{{data.voltage}}</td>
-                                </tr>
-                            </tbody>
-                            <tfoot class="hide">
-                              <tr>
-                                  <td colspan="5" class="text-center">
-                                      <ul class="pagination"></ul>
-                                  </td>
-                              </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
      </div>

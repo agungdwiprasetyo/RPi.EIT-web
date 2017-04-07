@@ -1,7 +1,7 @@
 app.controller('GalleryCtrl', ['$scope', '$rootScope', '$http', '$interval', 'toaster', function($scope, $rootScope, $http, $interval, toaster) {
     $scope.slides = [];
     $scope.myInterval = 10000;
-    $http.get($rootScope.host+'/image').success(function(data){
+    $http.get('/image').success(function(data){
         $scope.slides = data;
     });
 
@@ -17,22 +17,25 @@ app.controller('GalleryCtrl', ['$scope', '$rootScope', '$http', '$interval', 'to
         }
     });
 
+    $scope.sweet = {
+        title: "Hapus citra?",
+        text: "Apakah anda yakin ingin menghapus citra ini?",
+        type: "warning",
+        // closeOnConfirm: false,
+        showCancelButton: true,
+    }
+
     $scope.deleteImage = function(val){
-        var konfirm = confirm("Apakah anda yakin ingin menghapus citra "+val+"?");
-        if(konfirm){
           $http({
               method  : 'DELETE',
-              url     : $rootScope.host+'/image',
+              url     : '/image',
               data    : $.param({'filename': val}),
               headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
           }).success(function(data){
               console.log('sukses delete');
               toaster.pop("success", "Sukses", "Success delete image.");
           }).error(function(e){
-              alert(':(');
+              console.log(e);
           });
-        }else{
-            return false;
-        }
     };
 }]);
