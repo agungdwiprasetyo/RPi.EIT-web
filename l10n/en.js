@@ -29,7 +29,7 @@
     },
     "alat" : {
       "SUB": "EIT Instrument",
-      "LIST" : "Registered",
+      "LIST" : "Perangkat EIT",
       "SETTING" : "Setting",
       "CONDITION" : "Shut Down"
     }

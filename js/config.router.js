@@ -159,10 +159,20 @@ angular.module('app')
                       }]
                   }
               })
-              .state('app.statuseit', {
-                  url: '/status',
-                  controller: 'StatusCtrl',
-                  templateUrl: 'tpl/raspieit/status.html'
+              .state('app.perangkateit', {
+                  url: '/perangkateit',
+                  controller: 'PerangkatCtrl',
+                  templateUrl: 'tpl/raspieit/perangkat.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function($ocLazyLoad){
+                          return $ocLazyLoad.load('toaster').then(
+                              function(){
+                                 return $ocLazyLoad.load('js/raspEIT/controllers/perangkat.js');
+                              }
+                          );
+                      }]
+                  }
               })
               .state('app.shutdown', {
                   url: '/shutdown',

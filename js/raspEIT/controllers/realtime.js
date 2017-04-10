@@ -71,6 +71,14 @@ function($scope, $rootScope, socket, $interval, $localStorage, $http, toaster) {
         toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
     });
 
+    $scope.sweet = {
+        title: "Hapus citra?",
+        text: "Apakah anda yakin ingin menghapus citra ini?",
+        type: "warning",
+        // closeOnConfirm: false,
+        showCancelButton: true,
+    }
+
     $scope.run = function(){
         if($rootScope.piOnline){
             $scope.realtimeSession.loadImage = true;
@@ -81,24 +89,19 @@ function($scope, $rootScope, socket, $interval, $localStorage, $http, toaster) {
         }
     };
     $scope.delete = function() {
-        var konfirm = confirm("Apakah anda yakin ingin menghapus citra?");
-        if(konfirm){
-            $http({
-                method  : 'DELETE',
-                url     : '/image',
-                data    : $.param({'filename': $scope.imageName}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).success(function(data){
-                $scope.alerts = alertOnline;
-                console.log('sukses delete');
-                $scope.realtimeSession.loadImage = false;
-                $scope.realtimeSession.showImage = false;
-            }).error(function(e){
-                alert(':(');
-            });
-        }else{
-            return false;
-        }
+        $http({
+            method  : 'DELETE',
+            url     : '/image',
+            data    : $.param({'filename': $scope.imageName}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function(data){
+            $scope.alerts = alertOnline;
+            console.log('sukses delete');
+            $scope.realtimeSession.loadImage = false;
+            $scope.realtimeSession.showImage = false;
+        }).error(function(e){
+            alert(':(');
+        });
     };
     $scope.changeSetting = function(){
         $scope.settingSession = true;

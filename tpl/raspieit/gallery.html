@@ -33,7 +33,7 @@
                         <div class="panel-body">
                             <div class="list-group">
                               <div class="list-group-item">
-                                <b>Data:</b> {{detailImage.nama_data}}
+                                <b ng-click="removeImage(detailImage.nama)">Data:</b> {{detailImage.nama_data}}
                                 <a ui-sref="app.data.id({idData: detailImage.filename.slice(0, -4)})" class="btn btn-primary btn-sm pull-right" ng-click="lihatdata(detailImage.id_data)">Lihat data<a>
                               </div>
                               <div class="list-group-item">
@@ -50,7 +50,8 @@
                               </div>
                               <div class="list-group-item">
                                   <div class="text-center"</div>
-                                    <button sweetalert sweet-options="{{sweet}}" sweet-on-confirm="deleteImage(detailImage.nama)" class="btn btn-danger">Delete Image</button>
+                                    <button ng-disabled="detailImage.citra==detailImage.nama || disUpdate" sweetalert sweet-options="{{sweetUpdate}}" sweet-on-confirm="setDataProfile(detailImage.id_data,detailImage.nama)" class="btn btn-success">Set Data Image</button>
+                                    <button sweetalert sweet-options="{{sweetDelete}}" sweet-on-confirm="deleteImage(detailImage.nama)" class="btn btn-danger">Delete Image</button>
                                 </div>
                             </div>
                     </div>

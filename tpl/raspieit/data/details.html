@@ -8,21 +8,28 @@
 <div class="wrapper-md">
     <div class="row">
         <div class="col-md-12">
-            <alert type="info" class="text-center">
-                <h4>Data ini menggunakan arus injeksi sebesar {{infoData.arus}} miliampere</h4>
-            </alert>
-        <div class="panel panel-primary">
-            <div class="panel-heading m-n h4">
-                    Model Objek
-                    <div class="pull-right">Hasil Citra Rekonstruksi</div>
-            </div>
-            <div class="panel-body">
+        <!-- <alert type="info" class="text-center">
+            <h4>Data ini menggunakan arus injeksi sebesar {{infoData.arus}} miliampere</h4>
+        </alert> -->
+            <div class="panel panel-primary">
+                <div class="panel-heading m-n h4">
+                        Model Objek
+                        <div class="pull-right">Hasil Citra Rekonstruksi</div>
+                </div>
+                <div class="panel-body">
                     <div class="col-md-6">
-                        <div class="list-group text-center">
-                            <div class="list-group-item" ng-show="infoData.model">
-                                <img ng-src="img/model/{{infoData.model}}" width="400px">
+                        <div class="list-group">
+                            <div ng-show="infoData.model" class="list-group-item text-center">
+                                <div class="m-n h4">Model Phantom</div>
                             </div>
-                            <div ng-show="!infoData.model">
+                            <div ng-show="infoData.model" class="list-group-item text-center">
+                                <table class="table">
+                                    <tr>
+                                        <td><img ng-src="img/model/{{infoData.model}}" width="400px"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div ng-show="!infoData.model" class="list-group-item">
                                 No model
                                 <form class="form-horizontal form-validation" ng-submit="saveData()">
                                     <div class="form-group">
@@ -37,19 +44,26 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="text-center">
-                            <div class="list-group">
-                                <div class="list-group-item">
-                                    <div ng-show="infoData.citra">
-                                        <img ng-src="img/results/{{infoData.citra}}" width="400px">
-                                    </div>
-                                    <div ng-hide="infoData.citra">No Image</div>
-                                </div>
-                                <div class="list-group-item">
-                                    <a href="" sweetalert sweet-options="{{sweet.option}}" class="btn btn-lg btn-success"><i class="icon icon-control-play"></i> Start Reconstruction</a>
+                        <div class="list-group">
+                            <div ng-show="infoData.citra" class="list-group-item text-right">
+                                <div class="checkbox">
+                                    <label class="i-checks"><input type="checkbox" ng-model="showColorbarDetail"><i></i> Show Colorbar</label>
                                 </div>
                             </div>
-
+                            <div ng-show="infoData.citra" class="list-group-item text-center">
+                                <table class="table">
+                                    <tr>
+                                        <td style="width:80%"><img ng-src="img/results/{{infoData.citra}}" width="400"></td>
+                                        <td style="width:20%" ng-show="showColorbarDetail"><img ng-src="img/results/colorbar.png" width="80"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div ng-hide="infoData.citra" class="list-group-item">
+                                No Image
+                            </div>
+                            <div ng-hide="infoData.citra" class="list-group-item">
+                                <button sweetalert sweet-options="{{sweet.option}}" class="btn btn-lg btn-success"><i class="icon icon-control-play"></i> Start Reconstruction</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -58,7 +72,7 @@
 
         <div class="col-md-12">
               <div class="panel panel-primary">
-                <div class="panel-heading m-n h4 text-center">Grafik data</div>
+                <div class="panel-heading m-n h4 text-center">Grafik Data</div>
                 <div class="panel-body">
                   <div ui-jq="plot" ui-options="[
                   {
@@ -88,40 +102,14 @@
                   }" style="height:240px"></div>
                 </div>
               </div>
-            <!-- <div class="col-lg-4">
-                <div class="panel panel-info">
-                    <div class="panel-heading m-n h4">Detail {{infoData.namaData}}</div>
-                        <table class="table" style="height:270px;">
-                            <tr>
-                                <td style="width:40%" align="right">Nama Data</td>
-                                <td style="width:7%">:</td>
-                                <td class="font-bold">{{infoData.namaData}}</td>
-                            </tr>
-                            <tr>
-                                <td style="width:40%" align="right">Arus Injeksi</td>
-                                <td style="width:7%">:</td>
-                                <td class="font-bold">{{infoData.arus}} miliampere</td>
-                            </tr>
-                            <tr>
-                                <td style="width:40%" align="right">Filename</td>
-                                <td style="width:7%">:</td>
-                                <td class="font-bold">{{infoData.filename}}</td>
-                            </tr>
-                            <tr>
-                                <td style="width:40%" align="right">Tanggal</td>
-                                <td style="width:7%">:</td>
-                                <td class="font-bold">{{infoData.datetime | date:'dd-MM-yyyy'}}</td>
-                            </tr>
-                        </table>
-                </div>
-            </div> -->
         </div>
 
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
-                <div class="panel-heading m-n h4 text-center">Isi Data</div>
+                <div class="panel-heading m-n h4 text-center">Data Elektroda dan Tegangan</div>
                 <div class="panel-body b-b b-light">
-                    <button class="btn btn-success pull-right">Save csv</button>
+                    <div class="font-bold">Arus injeksi: {{infoData.arus}} miliampere</div>
+                    <!-- <button class="btn btn-success pull-right">Save csv</button> -->
                 </div>
                 <div>
                     <table class="table table-striped b-t b-light" ui-jq="footable" data-filter="#filter" data-page-size="210">
