@@ -28,7 +28,7 @@ function($scope, $rootScope, socket, $interval, $localStorage, $http, toaster) {
         $scope.iconClass = "icon icon-control-play";
     }else{
         $scope.alerts = alertOffline
-        $scope.iconClass = "icon icon-bulb";
+        $scope.iconClass = "fa fa-times-circle-o";
     }
 
     socket.on('raspiStatus', function(status){
@@ -37,7 +37,7 @@ function($scope, $rootScope, socket, $interval, $localStorage, $http, toaster) {
             $scope.iconClass = "icon icon-control-play";
         }else{
             $scope.alerts = alertOffline;
-            $scope.iconClass = "icon icon-bulb";
+            $scope.iconClass = "fa fa-times-circle-o";
             $scope.realtimeSession = {
                 loadImage: false,
                 showImage: false,
@@ -45,11 +45,12 @@ function($scope, $rootScope, socket, $interval, $localStorage, $http, toaster) {
         }
     });
     socket.on('viewResultVoltage', function(data) {
-        $scope.alerts = alertStartReconstruction;
-        if(data['status']){ // handle hanya sekali mellakukan rekonstruksi
+        if(data['status'] && data['token']==$localStorage.webToken){ // handle hanya sekali mellakukan rekonstruksi
+            $scope.alerts = alertStartReconstruction;
             socket.emit('runReconstruction', {
                 status: true,
                 tipe: "fromraspi",
+                token: $localStorage.webToken,
                 kerapatan: parseFloat($localStorage.eitSettings.kerapatan),
                 arus: parseFloat($localStorage.eitSettings.arus),
                 iddata: 2,
@@ -62,13 +63,15 @@ function($scope, $rootScope, socket, $interval, $localStorage, $http, toaster) {
         console.log("finissshhh");
     });
     socket.on('notifFinish', function(data) {
-        $scope.alerts = alertFinish;
-        $scope.realtimeSession.loadImage = false;
-        $scope.realtimeSession.showImage = true;
-        $scope.waktu = data['waktu'];
-        $scope.imageName = data['filename'];
-        $scope.judul6 = "Hasil";
-        toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
+        if(data['session']=="fromraspi" && data['token']==$localStorage.webToken){
+            $scope.alerts = alertFinish;
+            $scope.realtimeSession.loadImage = false;
+            $scope.realtimeSession.showImage = true;
+            $scope.waktu = data['waktu'];
+            $scope.imageName = data['filename'];
+            $scope.judul6 = "Hasil";
+            toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
+        }
     });
 
     $scope.sweet = {
@@ -84,7 +87,8 @@ function($scope, $rootScope, socket, $interval, $localStorage, $http, toaster) {
             $scope.realtimeSession.loadImage = true;
             $scope.alerts = alertCollectData;
             socket.emit('startGetData', {
-                status: true
+                status: true,
+                token: $localStorage.webToken
             });
         }
     };

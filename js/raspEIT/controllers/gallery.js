@@ -3,38 +3,40 @@ app.controller('GalleryCtrl', ['$scope', '$rootScope', '$http', '$interval', 'to
     $scope.myInterval = 10000;
     $http.get('/image').success(function(data){
         $scope.slides = data;
-        console.log($scope.slides);
     });
-
-    $scope.removeImage = function(val){
-        var index = $scope.slides.indexOf(5);
-        console.log(val);
-    };
 
     $scope.$watch(function () {
         for (var i = 0; i < $scope.slides.length; i++) {
           if ($scope.slides[i].active) {
-            return $scope.slides[i];
+              return $scope.slides[i];
           }
         }
     }, function (currentSlide, previousSlide) {
         if (currentSlide !== previousSlide) {
-          $scope.detailImage=currentSlide;
+            $scope.detailImage=currentSlide;
         }
     });
+
+    $scope.removeImage = function(val){
+        for(var i = 0; i < $scope.slides.length; i++) {
+            if($scope.slides[i]['nama'] === val) {
+                var index = i;
+                break;
+            }
+        }
+        $scope.slides.splice(index,1);
+    };
 
     $scope.sweetDelete = {
         title: "Hapus citra?",
         text: "Apakah anda yakin ingin menghapus citra ini?",
         type: "warning",
-        // closeOnConfirm: false,
         showCancelButton: true,
     };
     $scope.sweetUpdate = {
         title: "Update image data profile?",
         text: "Update?",
         type: "warning",
-        // closeOnConfirm: false,
         showCancelButton: true,
     };
 
@@ -52,6 +54,7 @@ app.controller('GalleryCtrl', ['$scope', '$rootScope', '$http', '$interval', 'to
         });
     };
     $scope.deleteImage = function(filename){
+        $scope.removeImage(filename);
         $http({
             method  : 'DELETE',
             url     : '/image',

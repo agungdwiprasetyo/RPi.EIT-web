@@ -68,6 +68,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
 		socket.emit('runReconstruction', {
             status: true,
             tipe: 'fromdata',
+            token: $localStorage.webToken,
             kerapatan: parseFloat($localStorage.eitSettings.kerapatan),
             arus: parseFloat($scope.selectData.arus),
             iddata: $scope.selectData.id,
@@ -77,12 +78,14 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
         });
 	};
     socket.on('notifFinish', function(data) {
-        $scope.loadImage = false;
-        $scope.showImage = true;
-        $scope.waktu = data['waktu'];
-        $scope.imageName = data['filename'];
-        $scope.judul5 = "Hasil citra "+$scope.dataClicked;
-        toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
+        if(data['session']=='fromdata' && data['token']==$localStorage.webToken){
+            $scope.loadImage = false;
+            $scope.showImage = true;
+            $scope.waktu = data['waktu'];
+            $scope.imageName = data['filename'];
+            $scope.judul5 = "Hasil citra "+$scope.dataClicked;
+            toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
+        }
     });
     $scope.closeImage = function() {
         $scope.loadImage = false;

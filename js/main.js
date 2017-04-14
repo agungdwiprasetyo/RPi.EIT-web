@@ -11,8 +11,16 @@ angular.module('app')
             $rootScope.piOnline = data['online'];
             console.log("rooot "+$rootScope.piOnline);
         });
+        socket.on('webStatus', function(data){
+            $localStorage.webToken = data['token'];
+            $rootScope.piOnline = data['piOnline'];
+            console.log("token "+$localStorage.webToken);
+        });
         $rootScope.host = "http://192.168.1.153:1993";
       // add 'ie' classes to html
+      var isIE = !!navigator.userAgent.match(/MSIE/i);
+      isIE && angular.element($window.document.body).addClass('ie');
+      isSmartDevice( $window ) && angular.element($window.document.body).addClass('smart');
 
       // config
       $scope.app = {
@@ -35,11 +43,26 @@ angular.module('app')
           navbarCollapseColor: 'bg-white-only',
           asideColor: 'bg-black',
           headerFixed: true,
-          asideFixed: false,
+          asideFixed: true,
           asideFolded: false,
           asideDock: false,
           container: false
         }
+      }
+
+      // default setting
+      $scope.eitSettings = {
+          algor: 'BP',
+          arus: 7.5,
+          kerapatan: 0.05,
+          colorbar: false,
+          saveData: true
+      }
+
+      if (angular.isDefined($localStorage.eitSettings) ) {
+        $scope.eitSettings = $localStorage.eitSettings;
+      } else {
+        $localStorage.eitSettings = $scope.eitSettings;
       }
 
       // save settings to local storage

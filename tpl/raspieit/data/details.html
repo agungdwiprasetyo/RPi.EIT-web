@@ -1,5 +1,5 @@
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-bold h3">{{infoData.namaData}}
+  <h1 class="m-n font-bold h2">{{infoData.namaData}}
       <button class="btn btn-danger pull-right">
           <span class="text"><i class="fa fa-trash"></i> Delete this data</span>
       </button>
@@ -12,31 +12,35 @@
             <h4>Data ini menggunakan arus injeksi sebesar {{infoData.arus}} miliampere</h4>
         </alert> -->
             <div class="panel panel-primary">
-                <div class="panel-heading m-n h4">
-                        Model Objek
-                        <div class="pull-right">Hasil Citra Rekonstruksi</div>
+                <div class="panel-heading m-n h4 text-center">
+                        Model & Citra
                 </div>
                 <div class="panel-body">
                     <div class="col-md-6">
                         <div class="list-group">
-                            <div ng-show="infoData.model" class="list-group-item text-center">
+                            <div class="list-group-item text-center">
                                 <div class="m-n h4">Model Phantom</div>
                             </div>
-                            <div ng-show="infoData.model" class="list-group-item text-center">
+                            <div ng-show="infoData.model" class="list-group-item">
                                 <table class="table">
                                     <tr>
-                                        <td><img ng-src="img/model/{{infoData.model}}" width="400px"></td>
+                                        <td class="pull-right"><img ng-src="img/model/{{infoData.model}}" width="400px" class="img-responsive"></td>
                                     </tr>
                                 </table>
                             </div>
-                            <div ng-show="!infoData.model" class="list-group-item">
+                            <div ng-show="!infoData.model" class="list-group-item text-center">
                                 No model
-                                <form class="form-horizontal form-validation" ng-submit="saveData()">
+                            </div>
+                            <div ng-show="!infoData.model" class="list-group-item text-center">
+                                <form class="form-horizontal" ng-submit="saveData()">
                                     <div class="form-group">
-                                        <label class="col-lg-2 control-label">Add model</label>
-                                        <div class="col-lg-10">
+                                        <label class="col-md-2 control-label">Add model</label>
+                                        <div class="col-md-10">
                                             <input type="file" name="file" id='file' required="required" />
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success" value="Upload"/>
                                     </div>
                                 </form>
                             </div>
@@ -45,23 +49,26 @@
                     </div>
                     <div class="col-md-6">
                         <div class="list-group">
-                            <div ng-show="infoData.citra" class="list-group-item text-right">
-                                <div class="checkbox">
-                                    <label class="i-checks"><input type="checkbox" ng-model="showColorbarDetail"><i></i> Show Colorbar</label>
-                                </div>
+                            <div class="list-group-item text-center">
+                                <div class="m-n h4">Citra</div>
                             </div>
-                            <div ng-show="infoData.citra" class="list-group-item text-center">
+                            <div ng-show="infoData.citra" class="list-group-item">
                                 <table class="table">
                                     <tr>
-                                        <td style="width:80%"><img ng-src="img/results/{{infoData.citra}}" width="400"></td>
-                                        <td style="width:20%" ng-show="showColorbarDetail"><img ng-src="img/results/colorbar.png" width="80"></td>
+                                        <td style="width:80%"><img ng-src="img/results/{{infoData.citra}}" width="400" class="img-responsive"></td>
+                                        <td style="width:20%">
+                                            <div class="checkbox">
+                                                <label class="i-checks"><input type="checkbox" ng-model="showColorbarDetail"><i></i> Show Colorbar</label>
+                                            </div>
+                                            <img ng-show="showColorbarDetail" ng-src="img/results/colorbar.png" width="80" class="img-responsive">
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
-                            <div ng-hide="infoData.citra" class="list-group-item">
+                            <div ng-hide="infoData.citra" class="list-group-item text-center">
                                 No Image
                             </div>
-                            <div ng-hide="infoData.citra" class="list-group-item">
+                            <div ng-hide="infoData.citra" class="list-group-item text-center">
                                 <button sweetalert sweet-options="{{sweet.option}}" class="btn btn-lg btn-success"><i class="icon icon-control-play"></i> Start Reconstruction</button>
                             </div>
                         </div>

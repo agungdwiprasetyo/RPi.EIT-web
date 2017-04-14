@@ -2,7 +2,7 @@ app.controller('DataCtrl', ['$scope', '$rootScope', '$http', 'toaster', '$interv
 function($scope, $rootScope, $http, toaster, $interval, $state, tglId){
     $interval(function(){}, 10);
     $scope.judul4 = "Data Hasil Pengukuran Tegangan";
-    $scope.alerts = [{type: 'info', msg: 'Upload data tegangan hanya dalam file berekstensi .txt dan jumlah data dalam file sebanyak 208 data tegangan.'}];
+    $scope.alerts = [{type: 'danger', msg: 'Upload data tegangan hanya dalam file berekstensi .txt dan jumlah data dalam file sebanyak 208 data tegangan.'}];
 
     $http.get('/data')
         .success(function(data){
