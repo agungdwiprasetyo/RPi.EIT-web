@@ -31,6 +31,7 @@ function($scope, $rootScope, $http, toaster, $interval, $state, tglId){
                 formData.append('nama_data', $scope.valNama);
                 formData.append('filename', namefile);
                 formData.append('arus_injeksi', $scope.valArus);
+                formData.append('deskripsi', $scope.valDes);
                 formData.append('file', data.files[0]);
                 return formData;
             },
@@ -38,6 +39,7 @@ function($scope, $rootScope, $http, toaster, $interval, $state, tglId){
                     nama_data: $scope.valNama,
                     filename: 'cobaupload',
                     arus_injeksi: $scope.valArus,
+                    deskripsi: $scope.valDes,
                     files: $scope.files
                 }
 
@@ -54,12 +56,39 @@ function($scope, $rootScope, $http, toaster, $interval, $state, tglId){
         toaster.pop("success", "Sukses", "Sukses upload data.");
         $scope.$emit("callReconstruction", {haha: 'wkwk'});
     };
+
+    $scope.sweet = {
+        title: "Hapus Data?",
+        text: "You will not be able to recover this imaginary file!",
+        type: "warning",
+        // closeOnConfirm: false,
+        showCancelButton: true,
+    };
+    $scope.deleteData = function(filename,id){
+        $http({
+            method  : 'DELETE',
+            url     : '/data',
+            data    : $.param({'filename': filename, 'id': id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function(data){
+            console.log('sukses delete');
+            $state.go('app.data.home');
+        }).error(function(e){
+            alert(':(');
+        });
+    };
 }]);
 
  // ------------------------------------------------------------------------------------------------------------------------
 
-app.controller('DetailDataCtrl', ['$scope', '$stateParams', '$http', '$rootScope', '$interval', function($scope, $stateParams, $http, $rootScope, $interval){
+app.controller('DetailDataCtrl', ['$scope', '$stateParams', '$http', '$rootScope', '$interval', '$state', 'socket', '$localStorage',
+function($scope, $stateParams, $http, $rootScope, $interval, $state, socket, $localStorage){
     $interval(function(){}, 10);
+    $scope.infoData = {};
+    $scope.detailSession = {
+        loadRecon: false,
+        judul: "Model & Citra"
+    }
 
     $http({
         method  : 'GET',
@@ -72,8 +101,13 @@ app.controller('DetailDataCtrl', ['$scope', '$stateParams', '$http', '$rootScope
             filename: data[0].filename,
             model: data[0].model,
             citra: data[0].citra,
-            datetime: data[0].datetime
-        }
+            datetime: data[0].datetime,
+            id: data[0].id_data
+        };
+
+        var cekColorbar = $scope.infoData.citra.charAt($scope.infoData.citra.length-5);
+        if(cekColorbar=="1") $scope.showColorbarImage = false;
+        else $scope.showColorbarImage = true;
     }).error(function(e){
         alert(':(');
     });
@@ -122,45 +156,94 @@ app.controller('DetailDataCtrl', ['$scope', '$stateParams', '$http', '$rootScope
             console.log("error");
         });
 
+    $scope.sweet = {
+        title: "Hapus Data?",
+        text: "You will not be able to recover this imaginary file!",
+        type: "warning",
+        // closeOnConfirm: false,
+        showCancelButton: true,
+    };
+    $scope.startDataRecon = function(){
+        $scope.detailSession = {
+            loadRecon: true,
+            judul: "Sedang merekonstruksi citra"
+        };
+        socket.emit('runReconstruction', {
+            status: true,
+            tipe: 'fromdata',
+            token: $localStorage.webToken,
+            kerapatan: parseFloat($localStorage.eitSettings.kerapatan),
+            arus: parseFloat($scope.infoData.arus),
+            iddata: $scope.infoData.id,
+            data: $scope.infoData.filename,
+            algor: $localStorage.eitSettings.algor,
+            colorbar: $localStorage.eitSettings.colorbar
+        });
+    };
+    $scope.deleteData = function(){
+        $http({
+            method  : 'DELETE',
+            url     : '/data',
+            data    : $.param({'filename': $scope.infoData.filename, 'id':$scope.infoData.id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function(data){
+            console.log('sukses delete');
+            $state.go('app.data.home');
+        }).error(function(e){
+            alert(':(');
+        });
+    };
+
+    socket.on('notifFinish', function(data) {
+        if(data['session']=='fromdata' && data['token']==$localStorage.webToken){
+            $scope.detailSession.loadRecon = false;
+            $scope.infoData.citra = true;
+            $scope.waktu = data['waktu'];
+            $scope.infoData.citra = data['filename'];
+            $scope.judul5 = "Hasil citra "+$scope.dataClicked;
+            $scope.updateImageProfil($scope.infoData.id, $scope.infoData.citra);
+        }
+    });
+    $scope.updateImageProfil = function(iddata, filename){
+        console.log(filename);
+        console.log(iddata);
+        $http({
+            method  : 'PUT',
+            url     : '/data',
+            data    : $.param({'id_data':iddata, 'citra': filename}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function(data){
+            console.log('sukses update');
+        }).error(function(e){
+            console.log(e);
+        });
+    };
+
     $scope.saveData = function(){
         var file = angular.element(document.querySelector('#file')).prop("files")[0];
-        var namefile = $scope.valNama.replace(/\s/g, '')+".txt";
         $scope.files = [];
         $scope.files.push(file);
         console.log($scope.files);
         $http({
             method: 'POST',
-            url: '/uploaddata',
+            url: '/uploadmodel',
             headers: { 'Content-Type': undefined },
             transformRequest: function (data) {
                 var formData = new FormData();
-                formData.append('nama_data', $scope.valNama);
-                formData.append('filename', namefile);
-                formData.append('arus_injeksi', $scope.valArus);
+                formData.append('id_data', $scope.infoData.id);
+                formData.append('model', namefile);
                 formData.append('file', data.files[0]);
                 return formData;
             },
             data: {
-                    nama_data: $scope.valNama,
-                    filename: 'cobaupload',
-                    arus_injeksi: $scope.valArus,
+                    id_data: $scope.infoData.id,
+                    model: $scope.files.originalname,
                     files: $scope.files
                 }
 
         }).success(function (res) {
             console.log(res);
             $interval(function(){}, 1000);
-            $state.go('app.data.id', {idData: namefile.slice(0, -4)});
-            toaster.pop("success", "Sukses", "Sukses upload data.");
         });
     };
-
-    $scope.sweet = {};
-    $scope.sweet.option = {
-        title: "Are you sure?",
-        text: "You will not be able to recover this imaginary file!",
-        type: "success",
-        // closeOnConfirm: false,
-        // showConfirmButton: false,
-    }
 }]);

@@ -92,7 +92,7 @@ function($scope, $rootScope, socket, $interval, $localStorage, $http, toaster) {
             });
         }
     };
-    $scope.delete = function() {
+    $scope.deleteImg = function() {
         $http({
             method  : 'DELETE',
             url     : '/image',

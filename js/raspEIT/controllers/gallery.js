@@ -53,7 +53,7 @@ app.controller('GalleryCtrl', ['$scope', '$rootScope', '$http', '$interval', 'to
             console.log(e);
         });
     };
-    $scope.deleteImage = function(filename){
+    $scope.deleteImage = function(filename, iddata){
         $scope.removeImage(filename);
         $http({
             method  : 'DELETE',
@@ -63,6 +63,17 @@ app.controller('GalleryCtrl', ['$scope', '$rootScope', '$http', '$interval', 'to
         }).success(function(data){
             console.log('sukses delete');
             toaster.pop("success", "Sukses", "Success delete image.");
+        }).error(function(e){
+            console.log(e);
+        });
+
+        $http({
+            method  : 'PUT',
+            url     : '/data',
+            data    : $.param({'id_data':iddata, 'citra': "apus"}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function(data){
+            console.log('sukses update');
         }).error(function(e){
             console.log(e);
         });

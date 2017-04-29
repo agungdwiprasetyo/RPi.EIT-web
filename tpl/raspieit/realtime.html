@@ -10,7 +10,7 @@
                 <alert ng-repeat="alert in alerts" type="{{alert.type}}" class="text-center"><h4>{{alert.msg}}</h4></alert>
                 <div class="panel panel-primary" ng-show="realtimeSession.showImage">
                     <div class="panel-body">
-                        <button sweetalert sweet-options="{{sweet}}" sweet-on-confirm="delete()" class="btn btn-danger pull-right"><i class="fa fa-trash"></i> Delete</button>
+                        <button sweetalert sweet-options="{{sweet}}" sweet-on-confirm="deleteImg()" class="btn btn-danger pull-right"><i class="fa fa-trash"></i> Delete</button>
                         <img ng-src="img/results/{{imageName}}" class="img-full">
                     </div>
                 </div>

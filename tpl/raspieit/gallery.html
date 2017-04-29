@@ -51,7 +51,7 @@
                               <div class="list-group-item">
                                   <div class="text-center"</div>
                                     <button ng-disabled="detailImage.citra==detailImage.nama || disUpdate" sweetalert sweet-options="{{sweetUpdate}}" sweet-on-confirm="setDataProfile(detailImage.id_data,detailImage.nama)" class="btn btn-success">Set Data Image</button>
-                                    <button sweetalert sweet-options="{{sweetDelete}}" sweet-on-confirm="deleteImage(detailImage.nama)" class="btn btn-danger">Delete Image</button>
+                                    <button sweetalert sweet-options="{{sweetDelete}}" sweet-on-confirm="deleteImage(detailImage.nama,detailImage.id_data)" class="btn btn-danger">Delete Image</button>
                                 </div>
                             </div>
                     </div>

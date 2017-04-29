@@ -64,6 +64,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
 	$scope.reconstruction = function(){
         $scope.alerts = [{type: 'info', msg: 'Sedang merekonstruksi citra. (Data: '+$scope.valData.selectedData.nama_data+', Algoritma: '+$scope.valAlgor.selectedAlgor.nama_algor+')...'}];
         $scope.loadImage = true;
+        $scope.disableBtn = true;
         $scope.judul5 = "Sedang merekonstruksi citra dari "+$scope.dataClicked;
 		socket.emit('runReconstruction', {
             status: true,
@@ -85,31 +86,40 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
             $scope.imageName = data['filename'];
             $scope.judul5 = "Hasil citra "+$scope.dataClicked;
             toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
+            $scope.disableBtn = false;
+            $scope.updateImage($scope.selectData.id, $scope.imageName);
         }
     });
+    $scope.updateImage = function(iddata, filename){
+        $http({
+            method  : 'PUT',
+            url     : '/data',
+            data    : $.param({'id_data':iddata, 'citra': filename}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function(data){
+            console.log('sukses update');
+            toaster.pop("success", "Sukses", "Success update image for this data.");
+        }).error(function(e){
+            console.log(e);
+        });
+    };
     $scope.closeImage = function() {
         $scope.loadImage = false;
         $scope.showImage = false;
         $scope.judul5 = "Rekonstruksi Citra";
     };
     $scope.deleteImage = function() {
-        $scope.alerts = [{type: 'success', msg: 'Perangkat EIT sedang Online'}];
-        var konfirm = confirm("Apakah anda yakin ingin menghapus citra?");
-        if(konfirm){
-            $http({
-                method  : 'DELETE',
-                url     : '/image',
-                data    : $.param({'filename': $scope.imageName}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).success(function(data){
-                console.log('sukses delete');
-                toaster.pop("warning", "Citra dihapus");
-            }).error(function(e){
-                alert(':(');
-            });
-        }else{
-            return false;
-        }
+        $http({
+            method  : 'DELETE',
+            url     : '/image',
+            data    : $.param({'filename': $scope.imageName}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function(data){
+            console.log('sukses delete');
+            toaster.pop("warning", "Citra dihapus");
+        }).error(function(e){
+            alert(':(');
+        });
         $scope.closeImage();
     };
     $scope.changeSetting = function(){
@@ -124,6 +134,14 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
     $scope.eitSettings = $localStorage.eitSettings;
     if($scope.eitSettings.colorbar) $scope.colorbar="Yes";
     else $scope.colorbar="No";
+
+    $scope.sweet = {
+        title: "Hapus citra?",
+        text: "Apakah anda yakin ingin menghapus citra ini?",
+        type: "warning",
+        // closeOnConfirm: false,
+        showCancelButton: true,
+    }
     // $scope.$watch('eitSettings', function(){
     //   $localStorage.eitSettings = $scope.eitSettings;
     //   toaster.pop("success", "Setting saved");

@@ -13,25 +13,33 @@
       Search: <input id="filter" type="text" class="form-control input-sm w-sm inline m-r"/>
     <div class="table-responsive col-md-10 col-md-offset-1">
       <table class="table m-b-none" ui-jq="footable" data-filter="#filter" data-page-size="10">
-        <thead style="display:block;">
+        <thead>
           <tr>
-            <th style="width:10%" class="text-center">No</th>
+            <th style="width:8%" class="text-center">No</th>
             <th style="width:20%">Nama Data</th>
             <th style="width:25%">Filename</th>
-            <th style="width:15%">Arus Injeksi</th>
-            <th style="width:15%">Tanggal Diambil</th>
-            <td style="width:10%"></td>
+            <th style="width:17%">Arus Injeksi</th>
+            <th style="width:15%">Deskripsi</th>
+            <th style="width:21%">Tanggal Diambil</th>
+            <td style="width:5%"></td>
+            <td style="width:5%"></td>
           </tr>
         </thead>
-        <tbody style="overflow-y: scroll; height: 400px; display:block;">
+        <tbody>
           <tr ng-repeat="data in dataTegangan" foo-repeat-done>
-            <td style="width:8%" class="text-center">{{$index+1}}</td>
-            <td style="width:20%">{{data.nama_data}}</td>
-            <td style="width:25%">{{data.filename}}</td>
-            <td style="width:10%">{{data.arus_injeksi}}</td>
-            <td style="width:15%" class="text-center">{{data.datetime | date:'dd/MM/yyyy'}}</td>
-            <td style="width:10%" class="text-center">
+            <td class="text-center">{{$index+1}}</td>
+            <td>{{data.nama_data}}</td>
+            <td>{{data.filename}}</td>
+            <td>{{data.arus_injeksi}}</td>
+            <td>{{data.deskripsi}}</td>
+            <td class="text-center">{{data.datetime | date:'dd/MM/yyyy'}}</td>
+            <td class="text-right">
                 <a ui-sref="app.data.id({idData: data.filename.slice(0, -4)})" class="btn btn-primary">Details</a>
+            </td>
+            <td class="text-left">
+                <button class="btn btn-danger pull-right" sweetalert sweet-options="{{sweet}}" sweet-on-confirm="deleteData(data.filename,data.id_data)" >
+                    <span class="text">Delete</span>
+                </button>
             </td>
           </tr>
         </tbody>
@@ -53,20 +61,26 @@
             <div class="panel-body">
               <form class="form-horizontal form-validation" ng-submit="saveData()">
                   <div class="form-group">
-                  <label class="col-lg-2 control-label">Nama Data</label>
-                      <div class="col-lg-10">
+                  <label class="col-lg-4 control-label">Nama Data</label>
+                      <div class="col-lg-8">
                           <input type="text" class="form-control" placeholder="Nama Data" ng-model="valNama" required="required">
                       </div>
                   </div>
                   <div class="form-group">
-                      <label class="col-lg-2 control-label">Arus Injeksi</label>
-                      <div class="col-lg-10">
+                      <label class="col-lg-4 control-label">Arus Injeksi</label>
+                      <div class="col-lg-4">
                           <input type="text" class="form-control" placeholder="Arus Injeksi" ng-model="valArus" required="required">
+                      </div>miliampere
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-4 control-label">Deskripsi Data</label>
+                      <div class="col-lg-8">
+                          <textarea class="form-control" placeholder="Deskripsi Data" ng-model="valDes" required="required"></textarea>
                       </div>
                   </div>
                   <div class="form-group">
-                      <label class="col-lg-2 control-label">File</label>
-                      <div class="col-lg-10">
+                      <label class="col-lg-4 control-label">File</label>
+                      <div class="col-lg-8">
                           <input type="file" name="file" id='file' required="required" />
                       </div>
                   </div>
