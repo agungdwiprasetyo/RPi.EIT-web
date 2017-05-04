@@ -19,7 +19,7 @@
                                     <tr>
                                       <th style="width:10%" class="text-center">No</th>
                                       <th style="width:20%">Nama Data</th>
-                                      <th style="width:25%">Filename</th>
+                                      <th style="width:25%">Deskripsi</th>
                                       <th style="width:15%">Arus Injeksi</th>
                                       <td style="width:10%"></td>
                                     </tr>
@@ -28,7 +28,7 @@
                                     <tr ng-repeat="data in dataUkur" foo-repeat-done>
                                       <td style="width:10%" class="text-center">{{$index+1}}</td>
                                       <td class="font-bold">{{data.nama_data}}</td>
-                                      <td>{{data.filename}}</td>
+                                      <td>{{data.deskripsi}}</td>
                                       <td>{{data.arus_injeksi}} mA</td>
                                       <td>
                                           <label class="i-checks m-b-none">
