@@ -163,7 +163,9 @@ function($scope, $stateParams, $http, $rootScope, $interval, $state, socket, $lo
         // closeOnConfirm: false,
         showCancelButton: true,
     };
+    var thisPage=false;
     $scope.startDataRecon = function(){
+        thisPage=true;
         $scope.detailSession = {
             loadRecon: true,
             judul: "Sedang merekonstruksi citra"
@@ -195,16 +197,17 @@ function($scope, $stateParams, $http, $rootScope, $interval, $state, socket, $lo
     };
 
     socket.on('notifFinish', function(data) {
-        if(data['session']=='fromdata' && data['token']==$localStorage.webToken){
+        if(data['session']=='fromdata' && data['token']==$localStorage.webToken && thisPage){
             $scope.detailSession.loadRecon = false;
             $scope.infoData.citra = true;
             $scope.waktu = data['waktu'];
             $scope.infoData.citra = data['filename'];
             $scope.judul5 = "Hasil citra "+$scope.dataClicked;
-            $scope.updateImageProfil($scope.infoData.id, $scope.infoData.citra);
+            updateImageProfil($scope.infoData.id, $scope.infoData.citra);
         }
+        thisPage=false;
     });
-    $scope.updateImageProfil = function(iddata, filename){
+    function updateImageProfil(iddata, filename){
         console.log(filename);
         console.log(iddata);
         $http({

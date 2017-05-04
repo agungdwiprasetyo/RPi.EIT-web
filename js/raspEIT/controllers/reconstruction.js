@@ -53,6 +53,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
     $scope.valAlgor.selectedAlgor = [];
     $scope.valData = {};
     $scope.valData.selectedData = [];
+    var reconPage=false;
 
     $scope.cekData = function(id, filename, arus, nama){
         $scope.selectData.id = id;
@@ -62,6 +63,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
         $scope.dataClicked = nama;
     };
 	$scope.reconstruction = function(){
+        reconPage=true;
         $scope.alerts = [{type: 'info', msg: 'Sedang merekonstruksi citra. (Data: '+$scope.valData.selectedData.nama_data+', Algoritma: '+$scope.valAlgor.selectedAlgor.nama_algor+')...'}];
         $scope.loadImage = true;
         $scope.disableBtn = true;
@@ -79,7 +81,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
         });
 	};
     socket.on('notifFinish', function(data) {
-        if(data['session']=='fromdata' && data['token']==$localStorage.webToken){
+        if(data['session']=='fromdata' && data['token']==$localStorage.webToken && reconPage){
             $scope.loadImage = false;
             $scope.showImage = true;
             $scope.waktu = data['waktu'];
@@ -87,10 +89,12 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
             $scope.judul5 = "Hasil citra "+$scope.dataClicked;
             toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
             $scope.disableBtn = false;
-            $scope.updateImage($scope.selectData.id, $scope.imageName);
+            updateImage($scope.selectData.id, $scope.imageName);
         }
+        reconPage=false;
     });
-    $scope.updateImage = function(iddata, filename){
+    function updateImage(iddata, filename){
+        console.log(iddata);
         $http({
             method  : 'PUT',
             url     : '/data',
