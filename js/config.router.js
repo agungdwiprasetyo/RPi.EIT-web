@@ -14,6 +14,18 @@ angular.module('app')
               .otherwise('/home');
 
           $stateProvider
+              .state('access', {
+                  abstract: true,
+                  url: '',
+                  templateUrl: '',
+              })
+              // login dulu
+              .state('access.login', {
+                  url: '/login',
+                  controller: 'SigninFormController',
+                  templateUrl: 'tpl/login.html'
+              })
+
               .state('app', {
                   abstract: true,
                   url: '',

@@ -33,7 +33,7 @@
                                     No model
                                 </div>
                                 <div ng-show="!infoData.model" class="list-group-item text-center">
-                                    <form class="form-horizontal" ng-submit="saveData()">
+                                    <form class="form-horizontal" ng-submit="saveModel()">
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Add model</label>
                                             <div class="col-md-10">
@@ -90,6 +90,7 @@
               <div class="panel panel-primary">
                 <div class="panel-heading m-n h4 text-center">Grafik Data</div>
                 <div class="panel-body">
+                    <button class="btn btn-small btn-info" ng-click="$state.reload()">reload</button>
                   <div ui-jq="plot" ui-options="[
                   {
                     'data': {{XData}},

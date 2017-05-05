@@ -18,6 +18,13 @@ function($scope, $rootScope, $http, toaster, $interval, $state, tglId){
 
     $scope.saveData = function(){
         var file = angular.element(document.querySelector('#file')).prop("files")[0];
+        var origName = file.name;
+        var extensi = origName.substr(origName.length-4);
+        console.log(extensi);
+        if(extensi!='.txt'){
+            $scope.alerts = [{type: "danger", msg: "Format file tidak benar, harus berjenis .txt"}];
+            return;
+        }
         var namefile = $scope.valNama.replace(/\s/g, '')+".txt";
         $scope.files = [];
         $scope.files.push(file);
@@ -49,12 +56,6 @@ function($scope, $rootScope, $http, toaster, $interval, $state, tglId){
             $state.go('app.data.id', {idData: namefile.slice(0, -4)});
             toaster.pop("success", "Sukses", "Sukses upload data.");
         });
-    };
-
-    $scope.tos = function(){
-        console.log("toss");
-        toaster.pop("success", "Sukses", "Sukses upload data.");
-        $scope.$emit("callReconstruction", {haha: 'wkwk'});
     };
 
     $scope.sweet = {
@@ -222,31 +223,39 @@ function($scope, $stateParams, $http, $rootScope, $interval, $state, socket, $lo
         });
     };
 
-    $scope.saveData = function(){
+    $scope.saveModel = function(){
         var file = angular.element(document.querySelector('#file')).prop("files")[0];
+        var origName = file.name;
+        var extensi = origName.substr(origName.length-4);
+        console.log(extensi);
+        if(extensi!='.png'){
+            alert("File harus berjenis gambar (.png)");
+            return;
+        }
+        var thisname = $scope.infoData.namaData.replace(/\s/g, '')+extensi;
         $scope.files = [];
         $scope.files.push(file);
         console.log($scope.files);
         $http({
-            method: 'POST',
+            method: 'PUT',
             url: '/uploadmodel',
             headers: { 'Content-Type': undefined },
             transformRequest: function (data) {
                 var formData = new FormData();
                 formData.append('id_data', $scope.infoData.id);
-                formData.append('model', namefile);
+                formData.append('model', thisname);
                 formData.append('file', data.files[0]);
                 return formData;
             },
             data: {
                     id_data: $scope.infoData.id,
-                    model: $scope.files.originalname,
+                    model: file.originalname,
                     files: $scope.files
                 }
 
-        }).success(function (res) {
+        }).success(function(res){
             console.log(res);
-            $interval(function(){}, 1000);
+            $state.reload();
         });
     };
 }]);

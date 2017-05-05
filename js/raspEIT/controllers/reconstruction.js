@@ -89,7 +89,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
             $scope.judul5 = "Hasil citra "+$scope.dataClicked;
             toaster.pop("success", "Sukses", "Sukses merekonstruksi citra. Hasil citra tersimpan. Waktu eksekusi = "+data['waktu']+" detik");
             $scope.disableBtn = false;
-            updateImage($scope.selectData.id, $scope.imageName);
+            //updateImage($scope.selectData.id, $scope.imageName);
         }
         reconPage=false;
     });
@@ -107,10 +107,11 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
             console.log(e);
         });
     };
-    $scope.closeImage = function() {
+    $scope.closeImage = function(otom) {
         $scope.loadImage = false;
         $scope.showImage = false;
         $scope.judul5 = "Rekonstruksi Citra";
+        if(otom) updateImage($scope.selectData.id, $scope.imageName);
     };
     $scope.deleteImage = function() {
         $http({
@@ -124,7 +125,7 @@ app.controller('ReconstructionCtrl', ['$scope', 'socket', '$interval', '$rootSco
         }).error(function(e){
             alert(':(');
         });
-        $scope.closeImage();
+        $scope.closeImage(false);
     };
     $scope.changeSetting = function(){
         $scope.settingSession = true;
